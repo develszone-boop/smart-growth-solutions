@@ -5,6 +5,10 @@ import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
   base: "/develszone-boop/",
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
+  },
   plugins: [
     react(),
     mode === "development" && componentTagger(),
