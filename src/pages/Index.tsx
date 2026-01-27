@@ -1,13 +1,13 @@
 import Navbar from "@/components/Navbar";
-import HeroCarousel from "@/components/HeroCarousel";
+import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Services from "@/components/Services";
 import Philosophy from "@/components/Philosophy";
-import ProcessPreview from "@/components/ProcessPreview";
-import PortfolioPreview from "@/components/PortfolioPreview";
-import Testimonials from "@/components/Testimonials";
+import Process from "@/components/Process";
+import Portfolio from "@/components/Portfolio";
 import Stats from "@/components/Stats";
-import FAQPreview from "@/components/FAQPreview";
+import Story from "@/components/Story";
+import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -15,15 +15,15 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <HeroCarousel />
+      <Hero />
       <About />
-      <Philosophy />
       <Services />
-      <ProcessPreview />
+      <Philosophy />
+      <Process />
+      <Portfolio />
       <Stats />
-      <PortfolioPreview />
-      <Testimonials />
-      <FAQPreview />
+      <Story />
+      <FAQ />
       <Contact />
       <Footer />
     </div>

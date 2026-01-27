@@ -21,8 +21,8 @@ const contactInfo = [
   },
   {
     icon: MapPin,
-    label: "Our Location",
-    value: "Hyderabad, Telangana, India",
+    label: "Visit Us",
+    value: "10-2-87, Vidhyanagar, Karimnagar, 505001",
     href: "#",
   },
 ];
@@ -38,25 +38,12 @@ const Contact = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedService, setSelectedService] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    const formData = new FormData(e.target as HTMLFormElement);
-    const data = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
-      company: formData.get("company"),
-      service: formData.get("service"),
-      otherService: formData.get("otherService"),
-      message: formData.get("message"),
-    };
-    
-    // TODO: Connect to backend (Google Sheets + Resend)
-    console.log("Form data:", data);
+    // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     toast({
@@ -65,7 +52,6 @@ const Contact = () => {
     });
     
     setIsSubmitting(false);
-    setSelectedService("");
     (e.target as HTMLFormElement).reset();
   };
 
@@ -170,26 +156,14 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium mb-2">Phone</label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      placeholder="+91 98765 43210"
-                      className="bg-secondary/50"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium mb-2">Company (Optional)</label>
-                    <Input
-                      id="company"
-                      name="company"
-                      placeholder="Your Company"
-                      className="bg-secondary/50"
-                    />
-                  </div>
+                <div>
+                  <label htmlFor="company" className="block text-sm font-medium mb-2">Company (Optional)</label>
+                  <Input
+                    id="company"
+                    name="company"
+                    placeholder="Your Company"
+                    className="bg-secondary/50"
+                  />
                 </div>
 
                 <div>
@@ -199,8 +173,6 @@ const Contact = () => {
                     name="service"
                     className="w-full px-3 py-2 rounded-lg border border-border bg-secondary/50 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     required
-                    value={selectedService}
-                    onChange={(e) => setSelectedService(e.target.value)}
                   >
                     <option value="">Select a service</option>
                     <option value="analytics">Business Analytics</option>
@@ -209,24 +181,9 @@ const Contact = () => {
                     <option value="rebranding">Website Rebranding</option>
                     <option value="seo">SEO & Visibility</option>
                     <option value="cybersecurity">Cybersecurity</option>
-                    <option value="mobile">Mobile Experience</option>
-                    <option value="brand">Brand Integration</option>
                     <option value="other">Other</option>
                   </select>
                 </div>
-
-                {selectedService === "other" && (
-                  <div>
-                    <label htmlFor="otherService" className="block text-sm font-medium mb-2">Please specify your requirements</label>
-                    <Input
-                      id="otherService"
-                      name="otherService"
-                      placeholder="Describe what you need..."
-                      required
-                      className="bg-secondary/50"
-                    />
-                  </div>
-                )}
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>

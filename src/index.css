@@ -4,64 +4,64 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-/* Develszone Design System - Professional Light Theme */
+/* Develszone Design System - Professional IT Agency */
 
 @layer base {
   :root {
-    /* Clean light palette */
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    /* Dark sophisticated palette */
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
 
-    --card: 210 40% 98%;
-    --card-foreground: 222 47% 11%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Royal Blue primary */
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
+    /* Vibrant cyan accent */
+    --primary: 192 91% 54%;
+    --primary-foreground: 222 47% 6%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 222 47% 12%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 222 30% 15%;
+    --muted-foreground: 215 20% 55%;
 
-    --accent: 221 83% 53%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 192 91% 54%;
+    --accent-foreground: 222 47% 6%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 192 91% 54%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens for light theme */
-    --gradient-primary: linear-gradient(135deg, hsl(221, 83%, 53%) 0%, hsl(262, 83%, 58%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(210, 40%, 98%) 0%, hsl(0, 0%, 100%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0, 0%, 100%) 0%, hsl(210, 40%, 98%) 100%);
-    --gradient-glow: radial-gradient(ellipse 80% 50% at 50% -20%, hsla(221, 83%, 53%, 0.08), transparent);
+    /* Custom tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(192, 91%, 54%) 0%, hsl(220, 91%, 60%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(222, 47%, 8%) 0%, hsl(222, 47%, 4%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(222, 47%, 10%) 0%, hsl(222, 47%, 7%) 100%);
+    --gradient-glow: radial-gradient(ellipse 80% 50% at 50% -20%, hsla(192, 91%, 54%, 0.15), transparent);
     
-    --shadow-soft: 0 4px 24px hsla(221, 83%, 53%, 0.08);
-    --shadow-card: 0 4px 24px hsla(0, 0%, 0%, 0.05);
-    --shadow-elevated: 0 20px 60px hsla(0, 0%, 0%, 0.1);
+    --shadow-glow: 0 0 60px hsla(192, 91%, 54%, 0.15);
+    --shadow-card: 0 4px 24px hsla(0, 0%, 0%, 0.4);
+    --shadow-elevated: 0 20px 60px hsla(0, 0%, 0%, 0.5);
 
     /* Typography */
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 40% 96%;
-    --sidebar-accent-foreground: 222 47% 11%;
-    --sidebar-border: 214 32% 91%;
-    --sidebar-ring: 221 83% 53%;
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 192 91% 54%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 222 47% 12%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 30% 18%;
+    --sidebar-ring: 192 91% 54%;
   }
 
   .dark {
@@ -71,27 +71,27 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 8%;
     --popover-foreground: 210 40% 98%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 192 91% 54%;
+    --primary-foreground: 222 47% 6%;
     --secondary: 222 47% 12%;
     --secondary-foreground: 210 40% 98%;
     --muted: 222 30% 15%;
     --muted-foreground: 215 20% 55%;
-    --accent: 221 83% 53%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 192 91% 54%;
+    --accent-foreground: 222 47% 6%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 222 30% 18%;
     --input: 222 30% 18%;
-    --ring: 221 83% 53%;
+    --ring: 192 91% 54%;
     --sidebar-background: 222 47% 8%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 221 83% 53%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 192 91% 54%;
+    --sidebar-primary-foreground: 222 47% 6%;
     --sidebar-accent: 222 47% 12%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 222 30% 18%;
-    --sidebar-ring: 221 83% 53%;
+    --sidebar-ring: 192 91% 54%;
   }
 }
 
@@ -137,60 +137,16 @@
     mask-composite: exclude;
   }
 
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+
   .card-gradient {
     background: var(--gradient-card);
-    box-shadow: var(--shadow-card);
   }
 
   .hero-glow {
     background: var(--gradient-glow);
-  }
-
-  .shadow-soft {
-    box-shadow: var(--shadow-soft);
-  }
-
-  .shadow-elevated {
-    box-shadow: var(--shadow-elevated);
-  }
-
-  /* Vector line background patterns */
-  .vector-lines {
-    background-image: 
-      linear-gradient(to right, hsl(var(--primary) / 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--primary) / 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
-
-  .vector-dots {
-    background-image: radial-gradient(hsl(var(--primary) / 0.1) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-
-  .vector-diagonal {
-    background-image: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 35px,
-      hsl(var(--primary) / 0.02) 35px,
-      hsl(var(--primary) / 0.02) 70px
-    );
-  }
-
-  /* Section dividers */
-  .section-divider {
-    position: relative;
-  }
-
-  .section-divider::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
   }
 }
 
