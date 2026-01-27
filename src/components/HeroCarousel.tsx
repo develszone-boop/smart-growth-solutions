@@ -41,6 +41,7 @@ const HeroCarousel = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -63,6 +64,8 @@ const HeroCarousel = () => {
     if (!emblaApi) return;
     onSelect();
     emblaApi.on("select", onSelect);
+    // Mark as initialized after first render
+    setIsInitialized(true);
     return () => {
       emblaApi.off("select", onSelect);
     };
@@ -82,7 +85,7 @@ const HeroCarousel = () => {
   return (
     <section 
       id="home" 
-      className="relative min-h-screen overflow-hidden pt-20"
+      className={`relative min-h-screen overflow-hidden pt-20 transition-opacity duration-500 ${isInitialized ? 'opacity-100' : 'opacity-0'}`}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -96,8 +99,8 @@ const HeroCarousel = () => {
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{ backgroundImage: `url(${slide.image})` }}
               />
-              {/* Overlay for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/40" />
+              {/* Overlay for text readability - Darkened by 30% */}
+              <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/60" />
             </div>
           ))}
         </div>

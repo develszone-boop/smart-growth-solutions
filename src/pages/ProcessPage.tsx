@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Search, Palette, Code, CheckCircle, Rocket, TrendingUp } from "lucide-react";
+import { Search, Palette, Code, CheckCircle, Rocket, TrendingUp, ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
@@ -67,10 +67,15 @@ const ProcessPage = () => {
         subtitle="Our Process"
         description="A proven methodology refined over hundreds of successful projects, designed to deliver exceptional results every time."
         breadcrumb="Process"
+        variant="green"
+        bannerImage="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=600&fit=crop"
       />
 
       {/* Process Timeline */}
-      <section className="py-20">
+      <section className="py-20 relative">
+        {/* Connecting line */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/20 via-primary/40 to-primary/20 hidden lg:block" />
+        
         <div className="container mx-auto px-6">
           <div className="space-y-24">
             {steps.map((step, index) => (
@@ -80,37 +85,44 @@ const ProcessPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "" : ""
-                }`}
+                className="relative"
               >
-                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="font-display text-5xl font-bold gradient-text">{step.number}</span>
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                      <step.icon className="w-6 h-6 text-primary" />
-                    </div>
-                  </div>
-                  
-                  <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">{step.title}</h2>
-                  <p className="text-muted-foreground mb-6">{step.description}</p>
-                  
-                  <ul className="grid grid-cols-2 gap-3">
-                    {step.details.map((detail) => (
-                      <li key={detail} className="flex items-center gap-2 text-muted-foreground text-sm">
-                        <CheckCircle className="w-4 h-4 text-primary shrink-0" />
-                        {detail}
-                      </li>
-                    ))}
-                  </ul>
+                {/* Step number indicator */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-4 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-display font-bold text-lg z-10 hidden lg:flex">
+                  {step.number}
                 </div>
+                
+                <div className={`grid lg:grid-cols-2 gap-12 items-center ${
+                  index % 2 === 1 ? "" : ""
+                }`}>
+                  <div className={index % 2 === 1 ? "lg:order-2" : ""}>
+                    <div className="flex items-center gap-4 mb-6">
+                      <span className="font-display text-5xl font-bold gradient-text lg:hidden">{step.number}</span>
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <step.icon className="w-6 h-6 text-primary" />
+                      </div>
+                    </div>
+                    
+                    <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">{step.title}</h2>
+                    <p className="text-muted-foreground mb-6">{step.description}</p>
+                    
+                    <ul className="grid grid-cols-2 gap-3">
+                      {step.details.map((detail) => (
+                        <li key={detail} className="flex items-center gap-2 text-muted-foreground text-sm">
+                          <CheckCircle className="w-4 h-4 text-primary shrink-0" />
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                  <img
-                    src={step.image}
-                    alt={step.title}
-                    className="rounded-2xl w-full h-[350px] object-cover shadow-card"
-                  />
+                  <div className={index % 2 === 1 ? "lg:order-1" : ""}>
+                    <img
+                      src={step.image}
+                      alt={step.title}
+                      className="rounded-2xl w-full h-[350px] object-cover shadow-card"
+                    />
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -171,8 +183,11 @@ const ProcessPage = () => {
             <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
               Let's discuss your project and see how our process can help you achieve your goals.
             </p>
-            <Button size="lg" asChild>
-              <Link to="/contact">Let's Discuss Your Project</Link>
+            <Button size="lg" className="gap-2 group" asChild>
+              <Link to="/contact">
+                Let's Discuss Your Project
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </Button>
           </motion.div>
         </div>

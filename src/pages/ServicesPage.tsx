@@ -10,13 +10,25 @@ import {
   Search, 
   Shield,
   Palette,
-  ArrowRight
+  ArrowRight,
+  CheckCircle
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
+
+// Import service images
+import analyticsImg from "@/assets/services/analytics.jpg";
+import marketingImg from "@/assets/services/marketing.jpg";
+import websiteImg from "@/assets/services/website.jpg";
+import rebrandingImg from "@/assets/services/rebranding.jpg";
+import revenueImg from "@/assets/services/revenue.jpg";
+import mobileImg from "@/assets/services/mobile.jpg";
+import seoImg from "@/assets/services/seo.jpg";
+import securityImg from "@/assets/services/security.jpg";
+import brandingImg from "@/assets/services/branding.jpg";
 
 const services = [
   {
@@ -25,7 +37,7 @@ const services = [
     tagline: "Turn insights into action",
     description: "We analyze your data to help you make smarter decisions, optimize performance, and uncover new growth opportunities.",
     features: ["Data Insights & Reporting", "Business Intelligence Dashboards", "Market Research & Competitor Analysis", "Predictive & Trend Analysis"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
+    image: analyticsImg,
   },
   {
     icon: Megaphone,
@@ -33,7 +45,7 @@ const services = [
     tagline: "Accelerate your brand's reach",
     description: "Targeted, measurable marketing strategies designed to attract, convert, and retain customers.",
     features: ["Social Media Marketing", "Performance Marketing", "Email Automation", "Funnel Optimization"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
+    image: marketingImg,
   },
   {
     icon: Globe,
@@ -41,7 +53,7 @@ const services = [
     tagline: "For first-time businesses",
     description: "Launch with impact. We build strategic, high-performance websites crafted to establish trust and drive growth.",
     features: ["Custom Design", "Mobile Responsive", "SEO Optimized", "Fast Performance"],
-    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop",
+    image: websiteImg,
   },
   {
     icon: RefreshCw,
@@ -49,7 +61,7 @@ const services = [
     tagline: "Digital transformation",
     description: "Transform your outdated website into a modern, high-impact digital asset aligned with your evolved goals.",
     features: ["Modern Redesign", "UX Enhancement", "Brand Alignment", "Conversion Focus"],
-    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=600&h=400&fit=crop",
+    image: rebrandingImg,
   },
   {
     icon: TrendingUp,
@@ -57,7 +69,7 @@ const services = [
     tagline: "Growth strategy",
     description: "Enhance your digital performance using advanced analytics and optimization techniques that maximize ROI.",
     features: ["A/B Testing", "Analytics Setup", "CRO Strategy", "Performance Tracking"],
-    image: "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=600&h=400&fit=crop",
+    image: revenueImg,
   },
   {
     icon: Smartphone,
@@ -65,7 +77,7 @@ const services = [
     tagline: "Design & development",
     description: "Deliver flawless mobile experiences that feel intuitive, fast, and app-like on every device.",
     features: ["Mobile-First Design", "Touch Optimized", "Fast Loading", "App-Like Experience"],
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop",
+    image: mobileImg,
   },
   {
     icon: Search,
@@ -73,7 +85,7 @@ const services = [
     tagline: "Search optimization",
     description: "Rank higher, increase visibility, and attract high-intent traffic with our full-spectrum SEO solutions.",
     features: ["Keyword Research", "On-Page SEO", "Technical SEO", "Content Strategy"],
-    image: "https://images.unsplash.com/photo-1571721795195-a2d50c404a04?w=600&h=400&fit=crop",
+    image: seoImg,
   },
   {
     icon: Shield,
@@ -81,7 +93,7 @@ const services = [
     tagline: "Digital protection",
     description: "Safeguard your digital assets with enterprise-grade security solutions that protect your business from modern threats.",
     features: ["Security Audits", "Website Protection", "Vulnerability Scanning", "Malware Removal & Prevention"],
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop",
+    image: securityImg,
   },
   {
     icon: Palette,
@@ -89,8 +101,15 @@ const services = [
     tagline: "Visual identity",
     description: "Build a powerful and cohesive brand experience across every digital touchpoint.",
     features: ["Logo Integration", "Color System", "Typography", "Brand Guidelines"],
-    image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop",
+    image: brandingImg,
   },
+];
+
+const whyChooseUs = [
+  { title: "Data-Driven Approach", description: "Every decision backed by analytics and research" },
+  { title: "Proven Results", description: "Track record of delivering measurable outcomes" },
+  { title: "Expert Team", description: "Specialists in every area of digital excellence" },
+  { title: "Ongoing Support", description: "We're with you every step of the way" },
 ];
 
 const ServicesPage = () => {
@@ -106,12 +125,14 @@ const ServicesPage = () => {
         subtitle="Our Services"
         description="From analytics to marketing, development to cybersecurity—we provide the strategic and technical expertise your business needs to grow with confidence."
         breadcrumb="Services"
+        variant="purple"
+        bannerImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=600&fit=crop"
       />
 
       {/* Services Grid */}
       <section className="py-20" ref={ref}>
         <div className="container mx-auto px-6">
-          <div className="space-y-16">
+          <div className="space-y-20">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
@@ -136,7 +157,7 @@ const ServicesPage = () => {
                   <ul className="space-y-3 mb-8">
                     {service.features.map((feature) => (
                       <li key={feature} className="flex items-center gap-3 text-muted-foreground">
-                        <span className="w-2 h-2 rounded-full bg-primary" />
+                        <CheckCircle className="w-5 h-5 text-primary shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -154,9 +175,43 @@ const ServicesPage = () => {
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="rounded-2xl w-full h-[300px] object-cover shadow-card"
+                    className="rounded-2xl w-full h-[350px] object-cover shadow-card"
                   />
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-20 bg-secondary/30">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <span className="text-primary text-sm font-semibold tracking-wider uppercase">Why Choose Us</span>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-6">
+              What Sets Us Apart
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {whyChooseUs.map((item, index) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="p-6 rounded-2xl bg-background border border-border text-center"
+              >
+                <h3 className="font-display text-xl font-semibold mb-3">{item.title}</h3>
+                <p className="text-muted-foreground">{item.description}</p>
               </motion.div>
             ))}
           </div>
