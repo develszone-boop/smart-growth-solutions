@@ -4,10 +4,9 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  // IMPORTANT: must match your GitHub repo name exactly
-  base: "/develszone-boop/",
+  // MUST match repo name exactly
+  base: "/smart-growth-solutions/",
 
-  // Explicit build output for GitHub Pages
   build: {
     outDir: "dist",
     emptyOutDir: true,
