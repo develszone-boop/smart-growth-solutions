@@ -2,7 +2,12 @@ import Navbar from "@/components/Navbar";
 import HeroCarousel from "@/components/HeroCarousel";
 import About from "@/components/About";
 import Services from "@/components/Services";
+import Philosophy from "@/components/Philosophy";
+import ProcessPreview from "@/components/ProcessPreview";
+import PortfolioPreview from "@/components/PortfolioPreview";
+import Testimonials from "@/components/Testimonials";
 import Stats from "@/components/Stats";
+import FAQPreview from "@/components/FAQPreview";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -12,8 +17,13 @@ const Index = () => {
       <Navbar />
       <HeroCarousel />
       <About />
+      <Philosophy />
       <Services />
+      <ProcessPreview />
       <Stats />
+      <PortfolioPreview />
+      <Testimonials />
+      <FAQPreview />
       <Contact />
       <Footer />
     </div>

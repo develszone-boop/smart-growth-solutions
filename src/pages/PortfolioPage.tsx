@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Filter } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
+
+const categories = ["All", "E-Commerce", "Property", "Lifestyle", "Hospitality", "Professional", "Technology"];
 
 const projects = [
   {
@@ -21,7 +24,7 @@ const projects = [
   },
   {
     title: "Real Estate Intelligence Platform",
-    category: "Property / Corporate",
+    category: "Property",
     description: "Developed a smart property showcase ecosystem featuring AI-driven search analytics, lead scoring, and SEO scaling.",
     tags: ["Secure CMS Development", "Data Intelligence System", "Lead Tracking & Analytics", "SEO & Visibility"],
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop",
@@ -33,7 +36,7 @@ const projects = [
   },
   {
     title: "Wellness & Spa Center",
-    category: "Lifestyle & Health",
+    category: "Lifestyle",
     description: "Implemented a data-driven booking engine, CRM automation, and multi-channel marketing—leading to 180% increase in bookings.",
     tags: ["Marketing Automation", "Customer Behavior Tracking", "Mobile-Optimized Platform", "Analytics Dashboards"],
     image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&h=600&fit=crop",
@@ -45,7 +48,7 @@ const projects = [
   },
   {
     title: "Hospitality Performance Engine",
-    category: "Food & Hospitality",
+    category: "Hospitality",
     description: "Built a performance-focused digital ecosystem with reservation analytics, local SEO, and customer acquisition tracking.",
     tags: ["Local SEO", "Reservation System Integration", "Analytics Tracking", "Performance Marketing"],
     image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
@@ -57,7 +60,7 @@ const projects = [
   },
   {
     title: "Law Firm Digital Authority",
-    category: "Professional Services",
+    category: "Professional",
     description: "A data-backed digital transformation that boosted online authority, client engagement, and search visibility.",
     tags: ["Content & SEO Strategy", "Secure Corporate Website", "Performance Marketing"],
     image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop",
@@ -69,7 +72,7 @@ const projects = [
   },
   {
     title: "SaaS Startup Growth Architecture",
-    category: "Technology / SaaS",
+    category: "Technology",
     description: "Developed a conversion-driven launch system with analytics, automation, and cybersecurity—helping secure Series A funding.",
     tags: ["Marketing Strategy", "Cybersecurity Setup", "Analytics & Performance Reports", "High-Performance Web Platform"],
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
@@ -82,6 +85,12 @@ const projects = [
 ];
 
 const PortfolioPage = () => {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredProjects = activeCategory === "All" 
+    ? projects 
+    : projects.filter(p => p.category === activeCategory);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -91,13 +100,37 @@ const PortfolioPage = () => {
         subtitle="Our Portfolio"
         description="Every project showcases what's possible when business analytics, strategy, and technology come together to solve real problems and drive scalable growth."
         breadcrumb="Portfolio"
+        variant="orange"
+        bannerImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=600&fit=crop"
       />
+
+      {/* Filter */}
+      <section className="py-8 border-b border-border sticky top-20 bg-background/95 backdrop-blur-sm z-30">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center gap-4 overflow-x-auto pb-2">
+            <Filter className="w-5 h-5 text-muted-foreground shrink-0" />
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+                  activeCategory === category
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Portfolio Grid */}
       <section className="py-20">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-8">
-            {projects.map((project, index) => (
+            {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.title}
                 initial={{ opacity: 0, y: 40 }}
@@ -107,7 +140,7 @@ const PortfolioPage = () => {
                 className="group rounded-2xl overflow-hidden border border-border bg-background hover:border-primary/50 transition-all duration-300"
               >
                 {/* Image */}
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-72 overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
