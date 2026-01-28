@@ -34,7 +34,7 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border bg-secondary/30">
+    <footer className="bg-slate-900 text-slate-100">
       <div className="container mx-auto px-6 py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
@@ -43,9 +43,9 @@ const Footer = () => {
               <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
                 <span className="font-display font-bold text-primary-foreground text-xl">D</span>
               </div>
-              <span className="font-display font-bold text-xl">Develszone</span>
+              <span className="font-display font-bold text-xl text-white">Develszone</span>
             </Link>
-            <p className="text-muted-foreground mb-6 max-w-sm">
+            <p className="text-slate-400 mb-6 max-w-sm">
               Crafting elegant digital experiences that transform businesses and maximize 
               revenue through intentional design.
             </p>
@@ -56,7 +56,7 @@ const Footer = () => {
                 <a
                   key={social.name}
                   href={social.href}
-                  className="w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+                  className="w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-primary hover:border-primary transition-colors"
                   aria-label={social.name}
                 >
                   <social.icon className="w-5 h-5" />
@@ -67,11 +67,11 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="font-display font-semibold mb-4">Services</h4>
+            <h4 className="font-display font-semibold mb-4 text-white">Services</h4>
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                  <Link to={link.href} className="text-slate-400 hover:text-white transition-colors text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -81,11 +81,11 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h4 className="font-display font-semibold mb-4">Company</h4>
+            <h4 className="font-display font-semibold mb-4 text-white">Company</h4>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                  <Link to={link.href} className="text-slate-400 hover:text-white transition-colors text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -95,11 +95,11 @@ const Footer = () => {
 
           {/* More */}
           <div>
-            <h4 className="font-display font-semibold mb-4">More</h4>
+            <h4 className="font-display font-semibold mb-4 text-white">More</h4>
             <ul className="space-y-3">
               {footerLinks.more.map((link) => (
                 <li key={link.name}>
-                  <Link to={link.href} className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+                  <Link to={link.href} className="text-slate-400 hover:text-white transition-colors text-sm">
                     {link.name}
                   </Link>
                 </li>
@@ -109,8 +109,8 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-muted-foreground text-sm">
+        <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-slate-500 text-sm">
             © 2025 Develszone Agency. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
@@ -118,7 +118,7 @@ const Footer = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-slate-500 hover:text-white transition-colors"
               >
                 {link.name}
               </a>

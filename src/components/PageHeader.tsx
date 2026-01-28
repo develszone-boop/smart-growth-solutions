@@ -7,13 +7,43 @@ interface PageHeaderProps {
   subtitle: string;
   description: string;
   breadcrumb: string;
+  variant?: "blue" | "purple" | "green" | "orange" | "indigo" | "cyan";
+  bannerImage?: string;
 }
 
-const PageHeader = ({ title, subtitle, description, breadcrumb }: PageHeaderProps) => {
+const variantStyles = {
+  blue: "from-primary/20 via-primary/10 to-background",
+  purple: "from-purple-500/20 via-purple-500/10 to-background",
+  green: "from-emerald-500/20 via-emerald-500/10 to-background",
+  orange: "from-orange-500/20 via-orange-500/10 to-background",
+  indigo: "from-indigo-500/20 via-indigo-500/10 to-background",
+  cyan: "from-cyan-500/20 via-cyan-500/10 to-background",
+};
+
+const PageHeader = ({ 
+  title, 
+  subtitle, 
+  description, 
+  breadcrumb, 
+  variant = "blue",
+  bannerImage 
+}: PageHeaderProps) => {
   return (
     <section className="pt-32 pb-16 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 to-background" />
+      {/* Banner Image Background */}
+      {bannerImage && (
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${bannerImage})` }}
+        >
+          <div className="absolute inset-0 bg-background/85" />
+        </div>
+      )}
+      
+      {/* Gradient Background */}
+      <div className={`absolute inset-0 bg-gradient-to-b ${variantStyles[variant]}`} />
+      
+      {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(37,99,235,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(37,99,235,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
       <div className="container mx-auto px-6 relative z-10">
