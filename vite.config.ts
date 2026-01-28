@@ -4,7 +4,10 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  base: "/develszone-boop/",
+  base: "/",
+  server: {
+    port: 8080,
+  },
   build: {
     outDir: "dist",
     emptyOutDir: true,
