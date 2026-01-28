@@ -40,7 +40,7 @@ const About = () => {
             Where Intelligence Meets <span className="gradient-text">Innovation</span>
           </h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-            At Develszone, we combine strategic thinking with technical excellence to deliver 
+            At trikalnetra, we combine strategic thinking with technical excellence to deliver 
             transformative digital solutions. Our team of experts brings together decades of 
             experience in analytics, development, and digital marketing to help businesses 
             thrive in an ever-evolving landscape.

@@ -36,7 +36,7 @@ const PageHeader = ({
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${bannerImage})` }}
         >
-          <div className="absolute inset-0 bg-background/85" />
+          <div className="absolute inset-0 bg-background/90" />
         </div>
       )}
       

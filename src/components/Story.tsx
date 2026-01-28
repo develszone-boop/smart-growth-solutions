@@ -34,7 +34,7 @@ const Story = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-muted-foreground text-lg leading-relaxed mb-6"
             >
-              Develszone was founded with a simple yet powerful vision: to bridge the gap between 
+              trikalnetra was founded with a simple yet powerful vision: to bridge the gap between 
               complex technology and real business value. What started as a small team of passionate 
               technologists has grown into a full-service digital agency serving clients across 
               industries and continents.

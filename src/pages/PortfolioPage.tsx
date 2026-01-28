@@ -96,13 +96,22 @@ const PortfolioPage = () => {
       <Navbar />
       
       <PageHeader
-        title="Work That Delivers Measurable Results"
+        title="Sample Case Studies"
         subtitle="Our Portfolio"
-        description="Every project showcases what's possible when business analytics, strategy, and technology come together to solve real problems and drive scalable growth."
+        description="These examples demonstrate the types of results we deliver for our clients. We'll update this section with real case studies as we complete projects."
         breadcrumb="Portfolio"
         variant="orange"
         bannerImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=600&fit=crop"
       />
+
+      {/* Notice Banner */}
+      <div className="bg-primary/5 border-b border-primary/10">
+        <div className="container mx-auto px-6 py-4">
+          <p className="text-center text-sm text-muted-foreground">
+            <span className="font-semibold text-primary">Note:</span> These are sample case studies showing typical results we deliver. Real project details coming soon.
+          </p>
+        </div>
+      </div>
 
       {/* Filter */}
       <section className="py-8 border-b border-border sticky top-20 bg-background/95 backdrop-blur-sm z-30">

@@ -41,9 +41,9 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                <span className="font-display font-bold text-primary-foreground text-xl">D</span>
+                <span className="font-display font-bold text-primary-foreground text-xl">T</span>
               </div>
-              <span className="font-display font-bold text-xl text-white">Develszone</span>
+              <span className="font-display font-bold text-xl text-white">trikalnetra</span>
             </Link>
             <p className="text-slate-400 mb-6 max-w-sm">
               Crafting elegant digital experiences that transform businesses and maximize 
@@ -111,7 +111,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
-            © 2025 Develszone Agency. All rights reserved.
+            © 2025 trikalnetra. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             {footerLinks.legal.map((link) => (

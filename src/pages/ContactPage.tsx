@@ -13,8 +13,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email Us",
-    value: "develszone@gmail.com",
-    href: "mailto:develszone@gmail.com",
+    value: "hello@trikalnetra.com",
+    href: "mailto:hello@trikalnetra.com",
   },
   {
     icon: Phone,

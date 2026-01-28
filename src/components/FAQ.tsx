@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button";
 
 const faqs = [
   {
-    question: "What exactly does Develszone do?",
-    answer: "Develszone is a full-service digital agency specializing in business analytics, web development, digital marketing, and cybersecurity. We help businesses transform their digital presence and drive measurable growth through data-driven strategies and cutting-edge technology.",
+    question: "What exactly does trikalnetra do?",
+    answer: "trikalnetra is a full-service digital agency specializing in business analytics, web development, digital marketing, and cybersecurity. We help businesses transform their digital presence and drive measurable growth through data-driven strategies and cutting-edge technology.",
   },
   {
     question: "Do you offer digital marketing or paid advertising services?",
@@ -38,7 +38,7 @@ const faqs = [
     answer: "Launch is just the beginning. We offer ongoing support, maintenance, and optimization services. This includes regular updates, security monitoring, performance tracking, and continuous improvements based on analytics data.",
   },
   {
-    question: "What makes Develszone different from other web agencies?",
+    question: "What makes trikalnetra different from other web agencies?",
     answer: "We combine strategic thinking with technical excellence. Unlike agencies that focus solely on design or development, we approach every project with a business-first mindset, using data and analytics to drive decisions and deliver measurable results.",
   },
 ];
@@ -62,7 +62,7 @@ const FAQ = () => {
             Questions & <span className="gradient-text">Answers</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Everything you need to know about working with Develszone.
+            Everything you need to know about working with trikalnetra.
           </p>
         </motion.div>
 
