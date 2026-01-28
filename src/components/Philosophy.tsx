@@ -66,7 +66,7 @@ const Philosophy = () => {
               it works—and how it transforms your business.
             </p>
             <footer className="text-center mt-6 text-primary font-semibold">
-              — Develszone Philosophy
+              — trikalnetra Philosophy
             </footer>
           </blockquote>
         </motion.div>

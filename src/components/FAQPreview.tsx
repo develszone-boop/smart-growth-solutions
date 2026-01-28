@@ -24,7 +24,7 @@ const faqs = [
     answer: "Absolutely! We offer flexible support packages including maintenance, analytics monitoring, content updates, and continuous optimization. We believe in building long-term partnerships with our clients.",
   },
   {
-    question: "What makes Develszone different from other agencies?",
+    question: "What makes trikalnetra different from other agencies?",
     answer: "We combine business analytics with creative excellence. Every decision is backed by data, and every design is crafted for conversion. We don't just build websites—we build digital growth engines.",
   },
 ];

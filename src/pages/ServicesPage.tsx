@@ -132,19 +132,22 @@ const ServicesPage = () => {
       {/* Services Grid */}
       <section className="py-20" ref={ref}>
         <div className="container mx-auto px-6">
-          <div className="space-y-20">
+          <div className="space-y-24">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
                 initial={{ opacity: 0, y: 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.05 }}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                className={`grid lg:grid-cols-2 gap-12 items-center p-8 rounded-3xl ${
+                  index % 2 === 0 ? "bg-secondary/20" : ""
                 }`}
               >
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                  <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center gap-4 mb-6">
+                    <span className="font-display text-5xl font-bold text-primary/20">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                       <service.icon className="w-6 h-6 text-primary" />
                     </div>

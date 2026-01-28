@@ -81,7 +81,7 @@ const AboutPage = () => {
       <PageHeader
         title="Where Intelligence Meets Innovation"
         subtitle="About Us"
-        description="At Develszone, we combine strategic thinking with technical excellence to deliver transformative digital solutions."
+        description="At trikalnetra, we combine strategic thinking with technical excellence to deliver transformative digital solutions."
         breadcrumb="About"
         variant="blue"
         bannerImage="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=600&fit=crop"
@@ -101,7 +101,7 @@ const AboutPage = () => {
                 Building Digital Excellence Since Day One
               </h2>
               <p className="text-muted-foreground mb-6">
-                Develszone was founded with a simple yet powerful vision: to help businesses unlock 
+                trikalnetra was founded with a simple yet powerful vision: to help businesses unlock 
                 their full potential through intelligent digital solutions. What started as a small 
                 team of passionate technologists has grown into a full-service digital agency serving 
                 clients across industries.

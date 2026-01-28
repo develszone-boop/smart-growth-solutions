@@ -7,7 +7,7 @@ const testimonials = [
     name: "Sarah Johnson",
     role: "CEO, TechStart Inc.",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-    content: "Develszone transformed our online presence completely. Our conversion rates increased by 240% within the first quarter. Their strategic approach to analytics and design is unmatched.",
+    content: "trikalnetra transformed our online presence completely. Our conversion rates increased by 240% within the first quarter. Their strategic approach to analytics and design is unmatched.",
     rating: 5,
   },
   {
@@ -21,7 +21,7 @@ const testimonials = [
     name: "Emily Rodriguez",
     role: "Marketing Director, Wellness Hub",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-    content: "Working with Develszone was a game-changer. Their data-driven marketing strategies and beautiful design work resulted in a 180% increase in bookings.",
+    content: "Working with trikalnetra was a game-changer. Their data-driven marketing strategies and beautiful design work resulted in a 180% increase in bookings.",
     rating: 5,
   },
 ];

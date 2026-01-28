@@ -34,9 +34,9 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <span className="font-display font-bold text-primary-foreground text-xl">D</span>
+              <span className="font-display font-bold text-primary-foreground text-xl">T</span>
             </div>
-            <span className="font-display font-bold text-xl text-foreground">Develszone</span>
+            <span className="font-display font-bold text-xl text-foreground">trikalnetra</span>
           </Link>
 
           {/* Desktop Navigation */}
