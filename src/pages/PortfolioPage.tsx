@@ -1,194 +1,104 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Filter } from "lucide-react";
-import { useState } from "react";
+import { 
+  ShoppingCart, 
+  Building2, 
+  Cpu, 
+  HeartPulse, 
+  Briefcase, 
+  UtensilsCrossed,
+  ArrowRight
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 
-const categories = ["All", "E-Commerce", "Property", "Lifestyle", "Hospitality", "Professional", "Technology"];
-
-const projects = [
+const capabilities = [
   {
-    title: "Retail Analytics Upgrade",
-    category: "E-Commerce",
-    description: "A complete analytics and marketing overhaul for a fashion retailer—delivering a 240% increase in online conversions.",
-    tags: ["Business Analytics", "Conversion Optimization", "Marketing Automation", "SEO & Traffic Growth"],
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop",
-    results: [
-      { metric: "240%", label: "Conversion Increase" },
-      { metric: "180%", label: "Traffic Growth" },
-      { metric: "3x", label: "ROI" },
-    ],
+    icon: ShoppingCart,
+    title: "E-Commerce Solutions",
+    description: "Build high-converting online stores with analytics, marketing automation, and SEO that drive sales and customer loyalty.",
+    features: ["Product Analytics", "Conversion Optimization", "Marketing Automation"],
   },
   {
-    title: "Real Estate Intelligence Platform",
-    category: "Property",
-    description: "Developed a smart property showcase ecosystem featuring AI-driven search analytics, lead scoring, and SEO scaling.",
-    tags: ["Secure CMS Development", "Data Intelligence System", "Lead Tracking & Analytics", "SEO & Visibility"],
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop",
-    results: [
-      { metric: "150+", label: "Properties Listed" },
-      { metric: "85%", label: "Lead Quality" },
-      { metric: "2x", label: "Engagement" },
-    ],
+    icon: Building2,
+    title: "Property & Real Estate",
+    description: "Smart property platforms with lead scoring, AI-driven search, and visibility tools that connect sellers with qualified buyers.",
+    features: ["Lead Scoring", "Property Showcases", "Local SEO"],
   },
   {
-    title: "Wellness & Spa Center",
-    category: "Lifestyle",
-    description: "Implemented a data-driven booking engine, CRM automation, and multi-channel marketing—leading to 180% increase in bookings.",
-    tags: ["Marketing Automation", "Customer Behavior Tracking", "Mobile-Optimized Platform", "Analytics Dashboards"],
-    image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&h=600&fit=crop",
-    results: [
-      { metric: "180%", label: "Booking Increase" },
-      { metric: "60%", label: "Automation Rate" },
-      { metric: "4.9", label: "Customer Rating" },
-    ],
+    icon: Cpu,
+    title: "Technology & SaaS",
+    description: "Launch and scale tech products with conversion-focused platforms, analytics dashboards, and growth marketing.",
+    features: ["Product Launches", "Growth Marketing", "Analytics Dashboards"],
   },
   {
-    title: "Hospitality Performance Engine",
-    category: "Hospitality",
-    description: "Built a performance-focused digital ecosystem with reservation analytics, local SEO, and customer acquisition tracking.",
-    tags: ["Local SEO", "Reservation System Integration", "Analytics Tracking", "Performance Marketing"],
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
-    results: [
-      { metric: "Top 3", label: "Local Search" },
-      { metric: "200%", label: "Reservations" },
-      { metric: "45%", label: "Return Customers" },
-    ],
+    icon: HeartPulse,
+    title: "Healthcare & Wellness",
+    description: "Digital solutions for healthcare providers including booking systems, patient engagement, and secure platforms.",
+    features: ["Booking Systems", "Patient Engagement", "Secure Platforms"],
   },
   {
-    title: "Law Firm Digital Authority",
-    category: "Professional",
-    description: "A data-backed digital transformation that boosted online authority, client engagement, and search visibility.",
-    tags: ["Content & SEO Strategy", "Secure Corporate Website", "Performance Marketing"],
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop",
-    results: [
-      { metric: "300%", label: "Organic Traffic" },
-      { metric: "50+", label: "New Clients" },
-      { metric: "1st", label: "Page Rankings" },
-    ],
+    icon: Briefcase,
+    title: "Professional Services",
+    description: "Establish digital authority for law firms, consultancies, and agencies with content strategy and lead generation.",
+    features: ["Authority Building", "Content Strategy", "Lead Generation"],
   },
   {
-    title: "SaaS Startup Growth Architecture",
-    category: "Technology",
-    description: "Developed a conversion-driven launch system with analytics, automation, and cybersecurity—helping secure Series A funding.",
-    tags: ["Marketing Strategy", "Cybersecurity Setup", "Analytics & Performance Reports", "High-Performance Web Platform"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-    results: [
-      { metric: "$2M", label: "Series A Raised" },
-      { metric: "10K+", label: "Active Users" },
-      { metric: "99.9%", label: "Uptime" },
-    ],
+    icon: UtensilsCrossed,
+    title: "Hospitality & Food",
+    description: "Restaurant and hotel solutions with reservation systems, local SEO, and customer acquisition tracking.",
+    features: ["Reservation Systems", "Local Search", "Customer Tracking"],
   },
 ];
 
-const PortfolioPage = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
-
-  const filteredProjects = activeCategory === "All" 
-    ? projects 
-    : projects.filter(p => p.category === activeCategory);
-
+const CapabilitiesPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       
       <PageHeader
-        title="Sample Case Studies"
-        subtitle="Our Portfolio"
-        description="These examples demonstrate the types of results we deliver for our clients. We'll update this section with real case studies as we complete projects."
-        breadcrumb="Portfolio"
-        variant="orange"
-        bannerImage="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=600&fit=crop"
+        title="What We Can Do For You"
+        subtitle="Our Capabilities"
+        description="We deliver tailored digital solutions across industries. Here's how we can help your business grow."
+        breadcrumb="Capabilities"
+        bannerImages={[
+          "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=600&fit=crop",
+          "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&h=600&fit=crop",
+          "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1920&h=600&fit=crop",
+        ]}
       />
 
-      {/* Notice Banner */}
-      <div className="bg-primary/5 border-b border-primary/10">
-        <div className="container mx-auto px-6 py-4">
-          <p className="text-center text-sm text-muted-foreground">
-            <span className="font-semibold text-primary">Note:</span> These are sample case studies showing typical results we deliver. Real project details coming soon.
-          </p>
-        </div>
-      </div>
-
-      {/* Filter */}
-      <section className="py-8 border-b border-border sticky top-20 bg-background/95 backdrop-blur-sm z-30">
+      {/* Capabilities Grid - 3 columns */}
+      <section className="py-16">
         <div className="container mx-auto px-6">
-          <div className="flex items-center gap-4 overflow-x-auto pb-2">
-            <Filter className="w-5 h-5 text-muted-foreground shrink-0" />
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                  activeCategory === category
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Portfolio Grid */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-8">
-            {filteredProjects.map((project, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {capabilities.map((capability, index) => (
               <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 40 }}
+                key={capability.title}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group rounded-2xl overflow-hidden border border-border bg-background hover:border-primary/50 transition-all duration-300"
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="p-6 rounded-2xl bg-secondary/30 border border-border hover:border-primary/50 transition-all duration-300 group"
               >
-                {/* Image */}
-                <div className="relative h-72 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent" />
-                  
-                  {/* Category Badge */}
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground">
-                    {project.category}
-                  </span>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <capability.icon className="w-6 h-6 text-primary" />
+                  </div>
                 </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="font-display text-xl font-semibold mb-2 flex items-center gap-2 group-hover:text-primary transition-colors">
-                    {project.title}
-                    <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
-                  
-                  {/* Results */}
-                  <div className="grid grid-cols-3 gap-4 py-4 border-t border-b border-border mb-4">
-                    {project.results.map((result) => (
-                      <div key={result.label} className="text-center">
-                        <p className="font-display font-bold text-lg text-primary">{result.metric}</p>
-                        <p className="text-xs text-muted-foreground">{result.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="text-xs px-2 py-1 rounded-md bg-secondary text-muted-foreground">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                <h3 className="font-display text-xl font-semibold mb-2">{capability.title}</h3>
+                <p className="text-muted-foreground text-sm mb-4">{capability.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {capability.features.map((feature) => (
+                    <span 
+                      key={feature} 
+                      className="text-xs px-2 py-1 rounded-md bg-primary/10 text-primary"
+                    >
+                      {feature}
+                    </span>
+                  ))}
                 </div>
               </motion.div>
             ))}
@@ -197,23 +107,25 @@ const PortfolioPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section className="py-16 bg-primary text-primary-foreground">
         <div className="container mx-auto px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-              Want to See More Examples?
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+              Don't See Your Industry?
             </h2>
-            <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-              We have case studies specific to your industry. Let's discuss how we can help 
-              your business achieve similar results.
+            <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8">
+              We work with businesses across all sectors. Let's discuss how we can help you achieve your goals.
             </p>
-            <Button size="lg" variant="secondary" asChild>
-              <Link to="/contact">Request a Custom Portfolio</Link>
+            <Button size="lg" variant="secondary" className="gap-2 group" asChild>
+              <Link to="/contact">
+                Let's Talk
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </Button>
           </motion.div>
         </div>
@@ -224,4 +136,4 @@ const PortfolioPage = () => {
   );
 };
 
-export default PortfolioPage;
+export default CapabilitiesPage;

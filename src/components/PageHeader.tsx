@@ -1,47 +1,79 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ChevronRight, Home } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 
 interface PageHeaderProps {
   title: string;
   subtitle: string;
   description: string;
   breadcrumb: string;
-  variant?: "blue" | "purple" | "green" | "orange" | "indigo" | "cyan";
   bannerImage?: string;
+  bannerImages?: string[];
 }
-
-const variantStyles = {
-  blue: "from-primary/20 via-primary/10 to-background",
-  purple: "from-purple-500/20 via-purple-500/10 to-background",
-  green: "from-emerald-500/20 via-emerald-500/10 to-background",
-  orange: "from-orange-500/20 via-orange-500/10 to-background",
-  indigo: "from-indigo-500/20 via-indigo-500/10 to-background",
-  cyan: "from-cyan-500/20 via-cyan-500/10 to-background",
-};
 
 const PageHeader = ({ 
   title, 
   subtitle, 
   description, 
   breadcrumb, 
-  variant = "blue",
-  bannerImage 
+  bannerImage,
+  bannerImages
 }: PageHeaderProps) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  
+  // Use bannerImages array if provided, otherwise use single bannerImage
+  const images = bannerImages || (bannerImage ? [bannerImage] : []);
+  const hasCarousel = images.length > 1;
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true },
+    hasCarousel ? [Autoplay({ delay: 4000, stopOnInteraction: false })] : []
+  );
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
   return (
     <section className="pt-32 pb-16 relative overflow-hidden">
-      {/* Banner Image Background */}
-      {bannerImage && (
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${bannerImage})` }}
-        >
+      {/* Carousel Background */}
+      {images.length > 0 && (
+        <div className="absolute inset-0">
+          {hasCarousel ? (
+            <div className="h-full" ref={emblaRef}>
+              <div className="flex h-full">
+                {images.map((image, index) => (
+                  <div
+                    key={index}
+                    className="flex-[0_0_100%] min-w-0 h-full bg-cover bg-center bg-no-repeat"
+                    style={{ backgroundImage: `url(${image})` }}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div 
+              className="h-full bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${images[0]})` }}
+            />
+          )}
+          {/* Dark overlay - consistent like homepage */}
           <div className="absolute inset-0 bg-background/90" />
         </div>
       )}
-      
-      {/* Gradient Background */}
-      <div className={`absolute inset-0 bg-gradient-to-b ${variantStyles[variant]}`} />
       
       {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(37,99,235,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(37,99,235,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
@@ -77,6 +109,24 @@ const PageHeader = ({
             {description}
           </p>
         </motion.div>
+
+        {/* Carousel Dots */}
+        {hasCarousel && (
+          <div className="flex justify-center gap-2 mt-8">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === selectedIndex 
+                    ? "bg-primary w-6" 
+                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                }`}
+                onClick={() => emblaApi?.scrollTo(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
