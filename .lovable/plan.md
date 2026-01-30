@@ -1,203 +1,182 @@
 
-# Trikalnetra Website Rebrand & Visual Enhancement Plan
+# Comprehensive Website Redesign Plan
 
-## Overview
-This plan addresses the complete rebranding from "Develszone" to "trikalnetra", updates contact information, improves the visual clarity of all pages, and suggests navigation improvements.
+## Summary of Changes
 
----
+### 1. Remove "Our Team" Section
+**File:** `src/pages/AboutPage.tsx`
+- Remove the entire Team Section (lines 191-233) that shows team member photos
+- Keep the Team Culture section at the bottom as it focuses on culture, not specific people
 
-## 1. Complete Rebranding
+### 2. Replace Portfolio with Capabilities
+Since the Portfolio shows sample projects (not actual work), we'll transform it into a **"Capabilities"** section showing what trikalnetra CAN do.
 
-### Brand Name Changes
-Replace "Develszone" with "trikalnetra" in all locations:
+**Changes:**
+- Rename "Portfolio" to "Capabilities" in navigation (`src/components/Navbar.tsx`)
+- Update `src/pages/PortfolioPage.tsx` to show capabilities in 3-column grid
+- Update `src/components/PortfolioPreview.tsx` on homepage to show "Our Capabilities" instead of "Featured Projects"
+- Route remains `/portfolio` but displays capabilities content
 
-| File | Location |
-|------|----------|
-| `src/components/Navbar.tsx` | Logo text and icon letter (D → T) |
-| `src/components/Footer.tsx` | Logo text, icon letter, copyright text |
-| `src/pages/AboutPage.tsx` | Page description, story section content |
-| `src/pages/FAQPage.tsx` | FAQ questions and answers |
-| `src/components/FAQ.tsx` | FAQ questions and answers |
-| `src/components/FAQPreview.tsx` | FAQ content |
-| `src/components/Testimonials.tsx` | Client testimonial quotes |
-| `src/index.css` | Comment reference |
+### 3. Simplify Services & Process Pages
+**Problem:** Too much space, visual clutter, hard to read
 
-### Email Update
-Change "develszone@gmail.com" to "hello@trikalnetra.com":
+**Services Page (`src/pages/ServicesPage.tsx`):**
+- Remove large images from service cards
+- Show services in a cleaner 3-column grid
+- Keep icons and descriptions, remove taglines and feature lists
+- Reduce padding between sections
 
-| File | Change |
-|------|--------|
-| `src/components/Contact.tsx` | Email value and href |
-| `src/pages/ContactPage.tsx` | Email value and href |
+**Process Page (`src/pages/ProcessPage.tsx`):**
+- Remove large images from each step
+- Display steps in a compact numbered list
+- Reduce vertical spacing significantly
+- Keep the essential information
 
----
+### 4. Remove Banner Gradient Effect
+**File:** `src/components/PageHeader.tsx`
 
-## 2. Visual Clarity Improvements
+**Current:** Colored gradient overlays (purple, green, orange, etc.) on each page
+**New:** Clean, minimal header like the homepage - just a dark overlay on the image, no colored gradients
 
-### Problem Identified
-The current design has visual confusion because:
-- Text and images compete for attention
-- No clear visual hierarchy
-- Too much content in similar styles
-- Hard to know where to focus
+- Remove `variantStyles` and `variant` prop
+- Use consistent dark overlay like homepage hero (90% dark)
+- Keep banner images but with simple treatment
 
-### Solution: Clearer Visual Hierarchy
+### 5. Add 3-Slide Carousel to Each Page Banner
+**File:** `src/components/PageHeader.tsx`
 
-#### A. Page Banner Headers
-Simplify the `PageHeader` component:
-- Darker overlay on banner images for better text contrast
-- Larger, more prominent headings
-- Remove competing visual elements
+Transform the static banner into a carousel with 3 slides per page:
+- Use Embla Carousel (already in project)
+- Each page will have 3 different background images with auto-play
+- Similar to homepage hero carousel but simpler
+- Add navigation dots at bottom
 
-#### B. About Page Improvements
-- **Story Section**: Left-align text, reduce image size, add clear section dividers
-- **Team Section**: Grid layout with better spacing, photos smaller with more focus on names
-- **Values Section**: Simpler card design with icons as accents, not focal points
-- Add visual breathing room between sections
+### 6. Connect Contact Form to Google Sheets
+**Files:** `src/components/Contact.tsx`, `src/pages/ContactPage.tsx`
 
-#### C. Services Page Improvements
-- Alternating layout is good, but:
-  - Add numbered indicators (01, 02, 03...) for visual anchoring
-  - Larger service titles with better contrast
-  - Group features into a cleaner list format
-  - Add subtle background color variation between services
+**Google Apps Script URL provided:**
+```
+https://script.google.com/macros/s/AKfycby0TgrSzP3W7JlUlOzLxNmcNPTXf8VHAXULkhsa_eIswOjuJTapIRmXMRqCvlNnfCPN/exec
+```
 
-#### D. Process Page Improvements
-- Add clearer step numbers as visual anchors
-- Reduce image prominence
-- Make timeline connector more visible
-- Better typography hierarchy
-
-#### E. Portfolio Page Improvements
-- Add a notice that these are "Sample Case Studies" (placeholder content)
-- Simplify project cards
-- Reduce visual clutter in results section
-- Clearer category badges
+- Send form data via POST request to this URL
+- No backend needed - direct frontend call
+- Handle success/error responses
 
 ---
 
-## 3. Portfolio Section Discussion
+## Detailed Implementation
 
-### Current State
-The Portfolio contains **sample/placeholder projects** (Retail Analytics, Real Estate Platform, etc.) that are NOT actual trikalnetra work.
+### Files to Modify
 
-### Options for You
-
-**Option A: Keep as "Case Studies" (Recommended)**
-- Rename "Portfolio" to "Case Studies"
-- Add subtitle: "Example results we deliver for clients"
-- Keep as templates showing the TYPE of work you do
-- Update with real projects when available
-
-**Option B: Replace with "Industries"**
-- Show industries you serve instead of specific projects
-- E-Commerce, Healthcare, Real Estate, Professional Services, etc.
-- Less commitment to specific project details
-
-**Option C: Hide for Now**
-- Remove from navigation temporarily
-- Re-add when you have real case studies
-
-### My Recommendation
-Keep it as **"Case Studies"** with a note that these represent typical results. This shows potential clients what's possible without claiming specific work. Update with real projects later.
+| File | Changes |
+|------|---------|
+| `src/pages/AboutPage.tsx` | Remove Team Section (lines 191-233) |
+| `src/components/Navbar.tsx` | Rename "Portfolio" to "Capabilities" |
+| `src/pages/PortfolioPage.tsx` | Complete redesign as Capabilities page with 3-column grid |
+| `src/components/PortfolioPreview.tsx` | Show "Our Capabilities" in 3-column grid |
+| `src/pages/ServicesPage.tsx` | Simplify to 3-column grid, remove images |
+| `src/pages/ProcessPage.tsx` | Compact layout, remove images |
+| `src/components/PageHeader.tsx` | Remove gradient, add 3-slide carousel |
+| `src/components/Contact.tsx` | Connect to Google Sheets URL |
+| `src/pages/ContactPage.tsx` | Connect to Google Sheets URL |
 
 ---
 
-## 4. New Menu Item Suggestion
+## Design Changes Detail
 
-Since Portfolio/Case Studies will be updated later, consider adding:
+### Services Page - New Layout
 
-### Suggestion: "Industries" or "Solutions"
-A page showing:
-- Industries you specialize in (E-Commerce, Healthcare, Real Estate, etc.)
-- Typical challenges in each industry
-- How trikalnetra helps solve them
+```text
++-------------------+-------------------+-------------------+
+|    Analytics      |     Marketing     |     Website       |
+|    [Icon]         |     [Icon]        |     [Icon]        |
+|    Brief desc     |     Brief desc    |     Brief desc    |
++-------------------+-------------------+-------------------+
+|    Rebranding     |     Revenue       |     Mobile        |
+|    [Icon]         |     [Icon]        |     [Icon]        |
+|    Brief desc     |     Brief desc    |     Brief desc    |
++-------------------+-------------------+-------------------+
+|    SEO            |    Cybersecurity  |    Branding       |
+|    [Icon]         |     [Icon]        |     [Icon]        |
+|    Brief desc     |     Brief desc    |     Brief desc    |
++-------------------+-------------------+-------------------+
+```
 
-This is evergreen content that doesn't require specific project references.
+### Process Page - New Layout
 
-### Updated Navigation
+```text
+Step 01: Discovery & Strategy
+Brief description...
 
-| Current | Suggested |
-|---------|-----------|
-| Home | Home |
-| About | About |
-| Services | Services |
-| Process | Process |
-| Portfolio | Case Studies (or Industries) |
-| FAQ | FAQ |
+Step 02: Design & Concept
+Brief description...
 
----
+Step 03: Development
+Brief description...
 
-## 5. Files to Modify
+(Continue for all 6 steps - compact, no images)
+```
 
-### Rebranding (13 files)
-1. `src/components/Navbar.tsx` - Logo text "D" → "T", name change
-2. `src/components/Footer.tsx` - Logo, name, copyright
-3. `src/components/Contact.tsx` - Email address
-4. `src/pages/ContactPage.tsx` - Email address
-5. `src/pages/AboutPage.tsx` - Description, story content
-6. `src/pages/FAQPage.tsx` - FAQ questions/answers
-7. `src/components/FAQ.tsx` - FAQ questions/answers
-8. `src/components/FAQPreview.tsx` - FAQ content
-9. `src/components/Testimonials.tsx` - Testimonial quotes
-10. `src/components/About.tsx` - Any brand references
-11. `src/components/Philosophy.tsx` - Any brand references
-12. `src/components/Story.tsx` - Any brand references
-13. `src/index.css` - CSS comment
+### Capabilities Page - New Layout
 
-### Visual Improvements (6 files)
-1. `src/components/PageHeader.tsx` - Darker overlay, clearer text
-2. `src/pages/AboutPage.tsx` - Section spacing, visual hierarchy
-3. `src/pages/ServicesPage.tsx` - Numbered services, better layout
-4. `src/pages/ProcessPage.tsx` - Clearer step indicators
-5. `src/pages/PortfolioPage.tsx` - Add "Sample" notice, simplify cards
-6. `src/index.css` - Additional utility classes for spacing
+```text
++------------------+------------------+------------------+
+|   E-Commerce     |   Property       |   Technology     |
+|   Solutions      |   Solutions      |   Solutions      |
+|   What we do     |   What we do     |   What we do     |
++------------------+------------------+------------------+
+|   Healthcare     |   Professional   |   Hospitality    |
+|   Solutions      |   Services       |   Solutions      |
+|   What we do     |   What we do     |   What we do     |
++------------------+------------------+------------------+
+```
 
----
+### Page Header - Carousel Design
 
-## 6. Technical Implementation
-
-### Visual Hierarchy Fixes
-
-**Typography Changes:**
-- Increase heading contrast with bolder weights
-- Add more spacing between sections (py-20 → py-24)
-- Use background color alternation to separate content
-
-**Image Treatment:**
-- Add stronger overlays on hero images
-- Reduce image prominence in content sections
-- Use images as accents, not focal points
-
-**Card Design:**
-- Simpler, cleaner cards with less visual noise
-- Consistent padding and spacing
-- Clear focus on one primary element per card
-
-**Section Dividers:**
-- Add subtle colored backgrounds alternating between sections
-- Use gradient transitions between areas
-- Visual breathing room with consistent spacing
+Each page header will have 3 rotating slides:
+- Auto-play every 4 seconds
+- Navigation dots at bottom
+- Consistent dark overlay (no colored gradients)
+- Same text content on all slides (just background changes)
 
 ---
 
-## Summary
+## Contact Form - Google Sheets Integration
 
-| Change | Impact |
-|--------|--------|
-| Rebrand to "trikalnetra" | Complete brand identity update |
-| Email: hello@trikalnetra.com | Professional contact update |
-| Visual hierarchy improvements | Clearer, less confusing layouts |
-| Portfolio → Case Studies | Clear that these are examples |
-| Optional: Add "Industries" page | Evergreen content alternative |
+```text
+Frontend Form Submit
+        |
+        v
+POST request to Google Apps Script URL
+        |
+        v
+Google Apps Script saves to Google Sheets
+        |
+        v
+Return success/error to frontend
+```
 
-### No Backend Changes
-This plan is entirely frontend - no cloud, forms, or backend implementations as requested.
+**Form fields sent:**
+- name
+- email
+- phone
+- company
+- service
+- otherService (if "Other" selected)
+- message
+- timestamp (added automatically)
 
 ---
 
-## Questions Before Implementation
+## Expected Outcome
 
-1. Should "Portfolio" be renamed to "Case Studies" or would you prefer "Industries"?
-2. Would you like me to add an "Industries" page as a new menu item?
-3. Any specific colors or visual preferences for the trikalnetra brand?
+After implementation:
+- "Our Team" section removed from About page
+- Portfolio becomes "Capabilities" - shows what you can do, not past projects
+- Services page: Clean 3-column grid with icons, no images
+- Process page: Compact numbered list, no images, less space
+- All page banners: 3-slide carousel, no colored gradients
+- Contact form: Saves directly to Google Sheets
+
+This will create a cleaner, easier-to-read website with clear visual hierarchy.
