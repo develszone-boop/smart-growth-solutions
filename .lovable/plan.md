@@ -1,182 +1,283 @@
 
-# Comprehensive Website Redesign Plan
 
-## Summary of Changes
+# Comprehensive Website Enhancement Plan
 
-### 1. Remove "Our Team" Section
-**File:** `src/pages/AboutPage.tsx`
-- Remove the entire Team Section (lines 191-233) that shows team member photos
-- Keep the Team Culture section at the bottom as it focuses on culture, not specific people
+## Summary of Issues to Fix
 
-### 2. Replace Portfolio with Capabilities
-Since the Portfolio shows sample projects (not actual work), we'll transform it into a **"Capabilities"** section showing what trikalnetra CAN do.
-
-**Changes:**
-- Rename "Portfolio" to "Capabilities" in navigation (`src/components/Navbar.tsx`)
-- Update `src/pages/PortfolioPage.tsx` to show capabilities in 3-column grid
-- Update `src/components/PortfolioPreview.tsx` on homepage to show "Our Capabilities" instead of "Featured Projects"
-- Route remains `/portfolio` but displays capabilities content
-
-### 3. Simplify Services & Process Pages
-**Problem:** Too much space, visual clutter, hard to read
-
-**Services Page (`src/pages/ServicesPage.tsx`):**
-- Remove large images from service cards
-- Show services in a cleaner 3-column grid
-- Keep icons and descriptions, remove taglines and feature lists
-- Reduce padding between sections
-
-**Process Page (`src/pages/ProcessPage.tsx`):**
-- Remove large images from each step
-- Display steps in a compact numbered list
-- Reduce vertical spacing significantly
-- Keep the essential information
-
-### 4. Remove Banner Gradient Effect
-**File:** `src/components/PageHeader.tsx`
-
-**Current:** Colored gradient overlays (purple, green, orange, etc.) on each page
-**New:** Clean, minimal header like the homepage - just a dark overlay on the image, no colored gradients
-
-- Remove `variantStyles` and `variant` prop
-- Use consistent dark overlay like homepage hero (90% dark)
-- Keep banner images but with simple treatment
-
-### 5. Add 3-Slide Carousel to Each Page Banner
-**File:** `src/components/PageHeader.tsx`
-
-Transform the static banner into a carousel with 3 slides per page:
-- Use Embla Carousel (already in project)
-- Each page will have 3 different background images with auto-play
-- Similar to homepage hero carousel but simpler
-- Add navigation dots at bottom
-
-### 6. Connect Contact Form to Google Sheets
-**Files:** `src/components/Contact.tsx`, `src/pages/ContactPage.tsx`
-
-**Google Apps Script URL provided:**
-```
-https://script.google.com/macros/s/AKfycby0TgrSzP3W7JlUlOzLxNmcNPTXf8VHAXULkhsa_eIswOjuJTapIRmXMRqCvlNnfCPN/exec
-```
-
-- Send form data via POST request to this URL
-- No backend needed - direct frontend call
-- Handle success/error responses
+1. **Google Sheets Data Not Saving** - CORS issue with the Google Apps Script
+2. **Services & Process Pages Design** - Need more visual appeal and content
+3. **Banner Images Too White** - Need 30% darker overlay (currently 90% opacity)
+4. **Pages Need More Content** - Make them longer with more information
+5. **Primary Color Update** - Change to #2574B9
+6. **Browser Logo/Favicon Update** - Use `Browser_logo_Trikalnetra2.svg`
+7. **Browser Title Shows "Develszone"** - Update to "trikalnetra"
+8. **Header Logo Update** - Use `Trikalnetra1.svg` in Navbar and Footer
 
 ---
 
-## Detailed Implementation
+## 1. Fix Google Sheets Integration (CORS Issue)
 
-### Files to Modify
+**Problem**: Network requests show `Status: 0` which indicates CORS blocking.
+
+**Root Cause**: When using `mode: "no-cors"`, the browser cannot read the response, and if the Google Apps Script isn't configured to accept CORS requests, it may fail silently.
+
+**Solution**: Change the fetch request to use a form-encoded approach that Google Apps Script handles better.
+
+**Files to Modify**:
+- `src/components/Contact.tsx` (lines 59-70)
+- `src/pages/ContactPage.tsx` (lines 75-86)
+
+**Technical Changes**:
+```typescript
+// Change from JSON POST to form-data POST
+const response = await fetch(
+  "https://script.google.com/macros/s/AKfycby0TgrSzP3W7JlUlOzLxNmcNPTXf8VHAXULkhsa_eIswOjuJTapIRmXMRqCvlNnfCPN/exec",
+  {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain",
+    },
+    body: JSON.stringify(data),
+  }
+);
+```
+
+Note: With `mode: "no-cors"`, we cannot verify the response. The Google Apps Script should be configured to:
+1. Accept POST requests
+2. Parse JSON from the request body
+3. Return a proper response
+
+---
+
+## 2. Update Primary Color to #2574B9
+
+**File to Modify**: `src/index.css`
+
+**Current HSL**: `--primary: 221 83% 53%` (which is approximately #2563EB)
+
+**New HSL for #2574B9**: `--primary: 207 66% 43%`
+
+The color #2574B9 in HSL is approximately:
+- Hue: 207
+- Saturation: 66%
+- Lightness: 43%
+
+---
+
+## 3. Update Browser Title and Meta Tags
+
+**File to Modify**: `index.html`
+
+**Changes**:
+- Title: "Develszone | Smarter Insights, Stronger Growth" -> "trikalnetra | Smarter Insights, Stronger Growth"
+- Description: Replace "Develszone" with "trikalnetra"
+- Author: "Develszone" -> "trikalnetra"
+- OG/Twitter meta tags: Update all references
+- Canonical URL: Update if applicable
+- Add favicon reference to new SVG
+
+---
+
+## 4. Add Browser Favicon
+
+**Steps**:
+1. Copy `user-uploads://Browser_logo_Trikalnetra2.svg` to `public/favicon.svg`
+2. Update `index.html` to reference the new favicon
+
+**File to Modify**: `index.html`
+```html
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+```
+
+---
+
+## 5. Update Header/Footer Logo
+
+**Steps**:
+1. Copy `user-uploads://Trikalnetra1.svg` to `src/assets/logo.svg`
+2. Update `src/components/Navbar.tsx` to use the new logo image
+3. Update `src/components/Footer.tsx` to use the same logo
+
+**Current Logo** (Navbar.tsx lines 34-38):
+```jsx
+<div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+  <span className="font-display font-bold text-primary-foreground text-xl">T</span>
+</div>
+<span className="font-display font-bold text-xl text-foreground">trikalnetra</span>
+```
+
+**New Logo**:
+```jsx
+import logo from "@/assets/logo.svg";
+// ...
+<img src={logo} alt="trikalnetra" className="h-10 w-auto" />
+```
+
+---
+
+## 6. Fix Banner Overlay (Make 30% Darker)
+
+**File to Modify**: `src/components/PageHeader.tsx` (line 74)
+
+**Current**: `bg-background/90` (90% opacity = barely visible background image)
+
+**New**: `bg-background/70` (70% opacity = 30% more visible background)
+
+This will make the banner images show through more while keeping text readable.
+
+---
+
+## 7. Enhance Services Page Design
+
+**File to Modify**: `src/pages/ServicesPage.tsx`
+
+**Improvements**:
+1. Add more detailed descriptions for each service
+2. Add a "Why Choose Us" section
+3. Add service highlights with statistics
+4. Increase padding and spacing
+5. Add icons with better visual prominence
+6. Include feature bullets for each service
+
+**New Sections to Add**:
+- Expanded service cards with more details and feature lists
+- Statistics section (projects completed, clients served, etc.)
+- Why Choose trikalnetra section
+- Industries we serve section
+
+---
+
+## 8. Enhance Process Page Design
+
+**File to Modify**: `src/pages/ProcessPage.tsx`
+
+**Improvements**:
+1. Add timeline visualization connecting steps
+2. Expand step descriptions with sub-points
+3. Add visual timeline indicators
+4. Include testimonial or case study reference
+5. Add expected timelines for each phase
+6. Add a "Frequently Asked Questions about our Process" section
+
+**New Sections to Add**:
+- Visual timeline with connecting lines
+- Expanded step details with deliverables
+- Timeline expectations
+- FAQ specific to the process
+
+---
+
+## Files to Modify Summary
 
 | File | Changes |
 |------|---------|
-| `src/pages/AboutPage.tsx` | Remove Team Section (lines 191-233) |
-| `src/components/Navbar.tsx` | Rename "Portfolio" to "Capabilities" |
-| `src/pages/PortfolioPage.tsx` | Complete redesign as Capabilities page with 3-column grid |
-| `src/components/PortfolioPreview.tsx` | Show "Our Capabilities" in 3-column grid |
-| `src/pages/ServicesPage.tsx` | Simplify to 3-column grid, remove images |
-| `src/pages/ProcessPage.tsx` | Compact layout, remove images |
-| `src/components/PageHeader.tsx` | Remove gradient, add 3-slide carousel |
-| `src/components/Contact.tsx` | Connect to Google Sheets URL |
-| `src/pages/ContactPage.tsx` | Connect to Google Sheets URL |
+| `index.html` | Update title, meta tags, add favicon |
+| `src/index.css` | Update primary color HSL values |
+| `src/components/Navbar.tsx` | Replace text logo with SVG image |
+| `src/components/Footer.tsx` | Replace text logo with SVG image |
+| `src/components/PageHeader.tsx` | Change overlay from /90 to /70 |
+| `src/pages/ServicesPage.tsx` | Complete redesign with more content |
+| `src/pages/ProcessPage.tsx` | Complete redesign with more content |
+| `src/components/Contact.tsx` | Fix CORS issue in fetch request |
+| `src/pages/ContactPage.tsx` | Fix CORS issue in fetch request |
+
+## Assets to Copy
+
+| From | To |
+|------|-----|
+| `user-uploads://Browser_logo_Trikalnetra2.svg` | `public/favicon.svg` |
+| `user-uploads://Trikalnetra1.svg` | `src/assets/logo.svg` |
 
 ---
 
-## Design Changes Detail
-
-### Services Page - New Layout
+## Services Page - New Design Layout
 
 ```text
-+-------------------+-------------------+-------------------+
-|    Analytics      |     Marketing     |     Website       |
-|    [Icon]         |     [Icon]        |     [Icon]        |
-|    Brief desc     |     Brief desc    |     Brief desc    |
-+-------------------+-------------------+-------------------+
-|    Rebranding     |     Revenue       |     Mobile        |
-|    [Icon]         |     [Icon]        |     [Icon]        |
-|    Brief desc     |     Brief desc    |     Brief desc    |
-+-------------------+-------------------+-------------------+
-|    SEO            |    Cybersecurity  |    Branding       |
-|    [Icon]         |     [Icon]        |     [Icon]        |
-|    Brief desc     |     Brief desc    |     Brief desc    |
-+-------------------+-------------------+-------------------+
++------------------------------------------------------------------+
+|                     PAGE HEADER (with darker overlay)             |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  INTRO SECTION                                                    |
+|  "What We Offer" - Brief overview paragraph                       |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  SERVICES GRID (3 columns, expanded cards)                        |
+|  Each card includes:                                              |
+|  - Large icon                                                     |
+|  - Service title                                                  |
+|  - Description paragraph                                          |
+|  - 3-4 bullet point features                                      |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  WHY CHOOSE US (4 columns)                                        |
+|  - Expert Team  - Fast Delivery  - 24/7 Support  - Results Focus  |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  STATISTICS SECTION                                               |
+|  150+ Projects  |  50+ Clients  |  5+ Years  |  99% Satisfaction  |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  CTA SECTION                                                      |
++------------------------------------------------------------------+
 ```
-
-### Process Page - New Layout
-
-```text
-Step 01: Discovery & Strategy
-Brief description...
-
-Step 02: Design & Concept
-Brief description...
-
-Step 03: Development
-Brief description...
-
-(Continue for all 6 steps - compact, no images)
-```
-
-### Capabilities Page - New Layout
-
-```text
-+------------------+------------------+------------------+
-|   E-Commerce     |   Property       |   Technology     |
-|   Solutions      |   Solutions      |   Solutions      |
-|   What we do     |   What we do     |   What we do     |
-+------------------+------------------+------------------+
-|   Healthcare     |   Professional   |   Hospitality    |
-|   Solutions      |   Services       |   Solutions      |
-|   What we do     |   What we do     |   What we do     |
-+------------------+------------------+------------------+
-```
-
-### Page Header - Carousel Design
-
-Each page header will have 3 rotating slides:
-- Auto-play every 4 seconds
-- Navigation dots at bottom
-- Consistent dark overlay (no colored gradients)
-- Same text content on all slides (just background changes)
 
 ---
 
-## Contact Form - Google Sheets Integration
+## Process Page - New Design Layout
 
 ```text
-Frontend Form Submit
-        |
-        v
-POST request to Google Apps Script URL
-        |
-        v
-Google Apps Script saves to Google Sheets
-        |
-        v
-Return success/error to frontend
-```
++------------------------------------------------------------------+
+|                     PAGE HEADER (with darker overlay)             |
++------------------------------------------------------------------+
 
-**Form fields sent:**
-- name
-- email
-- phone
-- company
-- service
-- otherService (if "Other" selected)
-- message
-- timestamp (added automatically)
++------------------------------------------------------------------+
+|  INTRO SECTION                                                    |
+|  "How We Work" - Overview of our approach                         |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  PROCESS TIMELINE (6 steps with connecting line)                  |
+|  Each step includes:                                              |
+|  - Step number with timeline dot                                  |
+|  - Title and description                                          |
+|  - Estimated duration                                             |
+|  - Key deliverables list                                          |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  WHAT MAKES US DIFFERENT (3 columns)                              |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  PROJECT TIMELINE EXPECTATIONS                                    |
+|  Small Project: 2-4 weeks | Medium: 4-8 weeks | Large: 3-6 months |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  PROCESS FAQ                                                      |
++------------------------------------------------------------------+
+
++------------------------------------------------------------------+
+|  CTA SECTION                                                      |
++------------------------------------------------------------------+
+```
 
 ---
 
-## Expected Outcome
+## Expected Outcomes
 
 After implementation:
-- "Our Team" section removed from About page
-- Portfolio becomes "Capabilities" - shows what you can do, not past projects
-- Services page: Clean 3-column grid with icons, no images
-- Process page: Compact numbered list, no images, less space
-- All page banners: 3-slide carousel, no colored gradients
-- Contact form: Saves directly to Google Sheets
+1. Contact form data will save to Google Sheets
+2. Primary color will be #2574B9 throughout the site
+3. Browser tab will show "trikalnetra" with the correct favicon
+4. Header and footer will display the official logo
+5. Page banners will show 30% more of the background images
+6. Services page will have more content and better visual design
+7. Process page will have a timeline visualization and more details
 
-This will create a cleaner, easier-to-read website with clear visual hierarchy.
