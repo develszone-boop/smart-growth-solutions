@@ -70,8 +70,8 @@ const PageHeader = ({
               style={{ backgroundImage: `url(${images[0]})` }}
             />
           )}
-          {/* Dark overlay - consistent like homepage */}
-          <div className="absolute inset-0 bg-background/90" />
+          {/* Dark overlay - 30% darker for better image visibility */}
+          <div className="absolute inset-0 bg-background/70" />
         </div>
       )}
       

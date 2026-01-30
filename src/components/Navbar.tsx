@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
+import logo from "@/assets/logo.svg";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -32,11 +33,8 @@ const Navbar = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-              <span className="font-display font-bold text-primary-foreground text-xl">T</span>
-            </div>
-            <span className="font-display font-bold text-xl text-foreground">trikalnetra</span>
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="trikalnetra" className="h-10 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}

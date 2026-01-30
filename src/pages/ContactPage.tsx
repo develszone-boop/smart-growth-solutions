@@ -73,13 +73,13 @@ const ContactPage = () => {
     };
     
     try {
-      const response = await fetch(
+      await fetch(
         "https://script.google.com/macros/s/AKfycby0TgrSzP3W7JlUlOzLxNmcNPTXf8VHAXULkhsa_eIswOjuJTapIRmXMRqCvlNnfCPN/exec",
         {
           method: "POST",
           mode: "no-cors",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "text/plain",
           },
           body: JSON.stringify(data),
         }

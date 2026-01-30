@@ -1,5 +1,6 @@
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
+import logo from "@/assets/logo.svg";
 
 const footerLinks = {
   services: [
@@ -39,11 +40,8 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                <span className="font-display font-bold text-primary-foreground text-xl">T</span>
-              </div>
-              <span className="font-display font-bold text-xl text-white">trikalnetra</span>
+            <Link to="/" className="flex items-center mb-4">
+              <img src={logo} alt="trikalnetra" className="h-10 w-auto brightness-0 invert" />
             </Link>
             <p className="text-slate-400 mb-6 max-w-sm">
               Crafting elegant digital experiences that transform businesses and maximize 
