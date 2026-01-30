@@ -64,6 +64,11 @@ const FAQPage = () => {
         subtitle="FAQ"
         description="Everything you need to know about working with trikalnetra."
         breadcrumb="FAQ"
+        bannerImages={[
+          "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920&h=600&fit=crop",
+          "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=1920&h=600&fit=crop",
+          "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?w=1920&h=600&fit=crop",
+        ]}
       />
 
       {/* FAQ Section */}

@@ -66,22 +66,42 @@ const ContactPage = () => {
       phone: formData.get("phone"),
       company: formData.get("company"),
       service: formData.get("service"),
-      otherService: formData.get("otherService"),
+      otherService: formData.get("otherService") || "",
+      budget: formData.get("budget") || "",
       message: formData.get("message"),
+      timestamp: new Date().toISOString(),
     };
     
-    // TODO: Connect to backend (Google Sheets + Resend)
-    console.log("Form data:", data);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
-    });
-    
-    setIsSubmitting(false);
-    setSelectedService("");
-    (e.target as HTMLFormElement).reset();
+    try {
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycby0TgrSzP3W7JlUlOzLxNmcNPTXf8VHAXULkhsa_eIswOjuJTapIRmXMRqCvlNnfCPN/exec",
+        {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you within 24 hours.",
+      });
+      
+      setSelectedService("");
+      (e.target as HTMLFormElement).reset();
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -93,8 +113,11 @@ const ContactPage = () => {
         subtitle="Contact Us"
         description="Ready to elevate your business with a website that drives real results? Let's discuss your vision."
         breadcrumb="Contact"
-        variant="cyan"
-        bannerImage="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=600&fit=crop"
+        bannerImages={[
+          "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=600&fit=crop",
+          "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1920&h=600&fit=crop",
+          "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1920&h=600&fit=crop",
+        ]}
       />
 
       <section className="py-20" ref={ref}>

@@ -1,31 +1,43 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ShoppingCart, Building2, Cpu, HeartPulse, Briefcase, UtensilsCrossed } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-const projects = [
+const capabilities = [
   {
-    title: "Retail Analytics Upgrade",
-    category: "E-Commerce",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop",
-    result: "240% Conversion Increase",
+    icon: ShoppingCart,
+    title: "E-Commerce",
+    description: "High-converting online stores",
   },
   {
-    title: "Real Estate Platform",
-    category: "Property",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop",
-    result: "150+ Properties Listed",
+    icon: Building2,
+    title: "Real Estate",
+    description: "Smart property platforms",
   },
   {
-    title: "SaaS Startup Growth",
-    category: "Technology",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop",
-    result: "$2M Series A Raised",
+    icon: Cpu,
+    title: "Technology",
+    description: "SaaS & product launches",
+  },
+  {
+    icon: HeartPulse,
+    title: "Healthcare",
+    description: "Patient engagement solutions",
+  },
+  {
+    icon: Briefcase,
+    title: "Professional",
+    description: "Authority & lead generation",
+  },
+  {
+    icon: UtensilsCrossed,
+    title: "Hospitality",
+    description: "Reservation & local SEO",
   },
 ];
 
-const PortfolioPreview = () => {
+const CapabilitiesPreview = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -43,47 +55,34 @@ const PortfolioPreview = () => {
           className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12"
         >
           <div>
-            <span className="text-primary text-sm font-semibold tracking-wider uppercase">Portfolio</span>
+            <span className="text-primary text-sm font-semibold tracking-wider uppercase">Capabilities</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold mt-4">
-              Featured <span className="gradient-text">Projects</span>
+              Industries We <span className="gradient-text">Serve</span>
             </h2>
           </div>
           <Button variant="outline" className="gap-2 group w-fit" asChild>
             <Link to="/portfolio">
-              View All Projects
+              View All Capabilities
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </Button>
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+        {/* Capabilities Grid - 3 columns */}
+        <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {capabilities.map((capability, index) => (
             <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 40 }}
+              key={capability.title}
+              initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group relative rounded-2xl overflow-hidden"
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="p-4 rounded-xl bg-secondary/30 border border-border hover:border-primary/50 transition-all duration-300 text-center group"
             >
-              {/* Image */}
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-primary/20 transition-colors">
+                <capability.icon className="w-5 h-5 text-primary" />
               </div>
-              
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/90 via-foreground/40 to-transparent flex flex-col justify-end p-6">
-                <span className="text-primary text-sm font-medium mb-2">{project.category}</span>
-                <h3 className="font-display text-xl font-semibold text-white mb-1 flex items-center gap-2 group-hover:text-primary transition-colors">
-                  {project.title}
-                  <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </h3>
-                <p className="text-white/80 text-sm">{project.result}</p>
-              </div>
+              <h3 className="font-display text-sm font-semibold mb-1">{capability.title}</h3>
+              <p className="text-muted-foreground text-xs">{capability.description}</p>
             </motion.div>
           ))}
         </div>
@@ -92,4 +91,4 @@ const PortfolioPreview = () => {
   );
 };
 
-export default PortfolioPreview;
+export default CapabilitiesPreview;

@@ -47,28 +47,6 @@ const stats = [
   { value: "50+", label: "Team Members" },
 ];
 
-const team = [
-  {
-    name: "Ravi Kumar",
-    role: "Founder & CEO",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
-  },
-  {
-    name: "Priya Sharma",
-    role: "Creative Director",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop",
-  },
-  {
-    name: "Arjun Patel",
-    role: "Head of Technology",
-    image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=300&h=300&fit=crop",
-  },
-  {
-    name: "Anita Desai",
-    role: "Marketing Lead",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop",
-  },
-];
 
 const AboutPage = () => {
   const ref = useRef(null);
@@ -83,8 +61,11 @@ const AboutPage = () => {
         subtitle="About Us"
         description="At trikalnetra, we combine strategic thinking with technical excellence to deliver transformative digital solutions."
         breadcrumb="About"
-        variant="blue"
-        bannerImage="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=600&fit=crop"
+        bannerImages={[
+          "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=600&fit=crop",
+          "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&h=600&fit=crop",
+          "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&h=600&fit=crop",
+        ]}
       />
 
       {/* Our Story Section */}
@@ -188,49 +169,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <span className="text-primary text-sm font-semibold tracking-wider uppercase">Our Team</span>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mt-4 mb-6">
-              Meet the Experts
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Our diverse team brings together the best minds in technology, design, and marketing.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center group"
-              >
-                <div className="relative mb-4 inline-block">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-48 h-48 rounded-full object-cover mx-auto border-4 border-background shadow-card group-hover:border-primary/50 transition-colors"
-                  />
-                </div>
-                <h3 className="font-display text-xl font-semibold">{member.name}</h3>
-                <p className="text-muted-foreground">{member.role}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Core Values */}
       <section className="py-20 bg-secondary/30">
