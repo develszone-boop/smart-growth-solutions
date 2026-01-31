@@ -1,7 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, Phone, MapPin, Send, Clock, MessageCircle, CheckCircle } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -106,8 +105,6 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      
       <PageHeader
         title="Start Your Transformation Today"
         subtitle="Contact Us"

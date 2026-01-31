@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import HeroCarousel from "@/components/HeroCarousel";
 import About from "@/components/About";
 import Services from "@/components/Services";
@@ -14,7 +13,6 @@ import Footer from "@/components/Footer";
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <HeroCarousel />
       <About />
       <Philosophy />
