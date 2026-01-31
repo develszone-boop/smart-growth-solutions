@@ -17,7 +17,6 @@ import {
   Award
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -157,8 +156,6 @@ const stats = [
 const ServicesPage = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      
       <PageHeader
         title="Comprehensive Digital Solutions"
         subtitle="Our Services"

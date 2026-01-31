@@ -2,7 +2,6 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Award, Target, Lightbulb, Users, Globe, Rocket } from "lucide-react";
 import { Link } from "react-router-dom";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -54,8 +53,6 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      
       <PageHeader
         title="Where Intelligence Meets Innovation"
         subtitle="About Us"

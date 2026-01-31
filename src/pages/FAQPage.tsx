@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -57,8 +56,6 @@ const faqs = [
 const FAQPage = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      
       <PageHeader
         title="Questions & Answers"
         subtitle="FAQ"

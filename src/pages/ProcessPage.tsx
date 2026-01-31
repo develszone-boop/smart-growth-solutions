@@ -15,7 +15,6 @@ import {
   Lightbulb,
   Shield
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -147,8 +146,6 @@ const faqs = [
 const ProcessPage = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      
       <PageHeader
         title="From Vision to Reality"
         subtitle="Our Process"
