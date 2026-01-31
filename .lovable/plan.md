@@ -1,130 +1,166 @@
 
 
-# Fix GitHub Pages Blank White Space Issue
+# PageHeader Banner Redesign: Split Layout with Text Left, Image Right
 
-## Problem Identified
+## Overview
 
-When visiting https://www.trikalnetra.com/, the site shows a blank white page. After investigation:
-
-1. **The Lovable preview works perfectly** - The issue is NOT with the code
-2. **The GitHub Pages deployment is broken** - The live site returns incomplete HTML:
-   ```html
-   <!DOCTYPE html><html lang="en">
-     <body>
-       <div id="root"></div>
-     </body>
-   </html>
-   ```
-   Notice: The `<head>` section with CSS, JavaScript, and meta tags is **completely missing**
-
-## Root Cause
-
-Two issues are causing this:
-
-1. **Missing 404.html file** - GitHub Pages needs a fallback file for Single Page Application (SPA) routing. Without it, any route refresh or direct navigation can fail.
-
-2. **Build deployment sync issue** - The recent changes may not have fully deployed to GitHub Pages. The GitHub workflow needs to rebuild and redeploy.
+Redesign the PageHeader component for inner pages (About, Services, Process, Capabilities, FAQ, Contact) to have a split layout with text on the left side and the image carousel on the right side, with no white/dark overlay on the images.
 
 ---
 
-## Solution
+## Current State
 
-### Step 1: Add 404.html for SPA Routing
+The current PageHeader has:
+- Full-width background image carousel with 70% dark overlay
+- Text content overlaid on top of the image
+- Grid pattern overlay
+- Breadcrumb navigation
 
-Create a `public/404.html` file that redirects all 404 requests to the main app. This is required for React Router to work on GitHub Pages.
+---
 
-**File to Create:** `public/404.html`
+## New Design Layout
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url=/" />
-    <script type="text/javascript">
-      // Single Page Apps for GitHub Pages redirect
-      // https://github.com/rafgraph/spa-github-pages
-      var pathSegmentsToKeep = 0;
-      var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
-    </script>
-    <title>Redirecting...</title>
-  </head>
-  <body>
-    Redirecting...
-  </body>
-</html>
+```text
++------------------------------------------------------------------+
+|  Navbar                                                           |
++------------------------------------------------------------------+
+|                                                                   |
+|  +---------------------------+  +------------------------------+  |
+|  |                           |  |                              |  |
+|  |  Breadcrumb: Home > About |  |                              |  |
+|  |                           |  |                              |  |
+|  |  SUBTITLE (small)         |  |     IMAGE CAROUSEL           |  |
+|  |  ----------------------   |  |     (No overlay)             |  |
+|  |  MAIN TITLE               |  |     Rounded corners          |  |
+|  |  (Large heading)          |  |     Auto-play slides         |  |
+|  |                           |  |                              |  |
+|  |  Description paragraph    |  |                              |  |
+|  |                           |  |                              |  |
+|  |                           |  |  [dot] [dot] [dot]           |  |
+|  +---------------------------+  +------------------------------+  |
+|         LEFT SIDE (50%)                RIGHT SIDE (50%)           |
++------------------------------------------------------------------+
 ```
 
-### Step 2: Add SPA Redirect Script to index.html
+---
 
-Add a script to `index.html` that handles the redirect from 404.html:
+## Technical Changes
 
-**File to Modify:** `index.html`
+### File to Modify
+- `src/components/PageHeader.tsx`
 
-Add this script inside the `<head>` tag:
+### Key Changes
 
-```html
-<!-- Single Page Apps for GitHub Pages redirect handling -->
-<script type="text/javascript">
-  (function(l) {
-    if (l.search[1] === '/' ) {
-      var decoded = l.search.slice(1).split('&').map(function(s) { 
-        return s.replace(/~and~/g, '&')
-      }).join('?');
-      window.history.replaceState(null, null,
-          l.pathname.slice(0, -1) + decoded + l.hash
-      );
-    }
-  }(window.location))
-</script>
+1. **Remove full-width background image** - Images will only appear in the right column
+
+2. **Create 2-column grid layout**:
+   - Left column: Breadcrumb, subtitle, title, description
+   - Right column: Image carousel
+
+3. **Remove dark overlay** - No `bg-background/70` overlay on images
+
+4. **Add rounded corners to images** - `rounded-2xl` for modern look
+
+5. **Move carousel dots below the image** - Inside the right column
+
+6. **Maintain responsive behavior**:
+   - Desktop: Side-by-side layout (grid-cols-2)
+   - Mobile: Stacked layout with text on top, images below
+
+### Updated Component Structure
+
+```tsx
+<section className="pt-32 pb-16 relative overflow-hidden">
+  {/* Subtle background pattern */}
+  <div className="absolute inset-0 bg-secondary/30" />
+  <div className="absolute inset-0 grid-pattern" />
+  
+  <div className="container mx-auto px-6 relative z-10">
+    {/* Two Column Grid */}
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      
+      {/* Left Column - Text Content */}
+      <motion.div>
+        {/* Breadcrumb */}
+        <div className="breadcrumb">Home > {breadcrumb}</div>
+        
+        {/* Subtitle */}
+        <span className="subtitle">{subtitle}</span>
+        
+        {/* Title */}
+        <h1 className="title">{title}</h1>
+        
+        {/* Description */}
+        <p className="description">{description}</p>
+      </motion.div>
+      
+      {/* Right Column - Image Carousel */}
+      <motion.div className="relative">
+        <div ref={emblaRef} className="overflow-hidden rounded-2xl">
+          <div className="flex">
+            {images.map((image, index) => (
+              <div 
+                key={index}
+                className="flex-[0_0_100%] aspect-[16/10]"
+              >
+                <img 
+                  src={image} 
+                  className="w-full h-full object-cover"
+                  // NO OVERLAY
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Dots below image */}
+        <div className="flex justify-center gap-2 mt-4">
+          {/* Carousel dots */}
+        </div>
+      </motion.div>
+      
+    </div>
+  </div>
+</section>
 ```
 
-### Step 3: Trigger GitHub Pages Rebuild
+---
 
-After the files are added, the GitHub workflow will automatically trigger a rebuild when pushed to the `main` branch. The new deployment should fix the issue.
+## Visual Improvements
+
+| Feature | Before | After |
+|---------|--------|-------|
+| Layout | Full-width image background | Split 50/50 layout |
+| Image Overlay | 70% dark overlay | No overlay - images fully visible |
+| Image Position | Behind text | Dedicated right column |
+| Image Corners | Square | Rounded (rounded-2xl) |
+| Text Background | Over image | Clean solid background |
+| Mobile | Text over image | Stacked: Text then Image |
 
 ---
 
-## Files to Create/Modify
+## Pages Affected
 
-| File | Action | Purpose |
-|------|--------|---------|
-| `public/404.html` | Create | Handle 404 redirects for SPA routing |
-| `index.html` | Modify | Add redirect handling script |
-
----
-
-## Why This Happened
-
-The site was working before because the deployment was fresh. After multiple changes:
-1. The build might have partially failed
-2. Without 404.html, GitHub Pages cannot properly handle client-side routing
-3. Caching at the CDN/domain level may be serving stale/broken content
+All pages using PageHeader will automatically get the new design:
+1. About (`/about`)
+2. Services (`/services`)
+3. Process (`/process`)
+4. Capabilities (`/portfolio`)
+5. FAQ (`/faq`)
+6. Contact (`/contact`)
 
 ---
 
-## After Implementation
+## Responsive Behavior
 
-Once these changes are deployed:
-1. Visiting https://www.trikalnetra.com/ will load the full site
-2. Direct navigation to any route (e.g., /about, /services) will work
-3. Page refreshes will work correctly
-4. The React Router will handle all client-side navigation
+- **Desktop (lg and up)**: Two columns side-by-side
+- **Tablet/Mobile**: Single column, text on top, image carousel below
 
 ---
 
-## Additional Step (If Issue Persists)
+## Animation Updates
 
-If the site still shows blank after deployment:
-1. Clear your browser cache (Ctrl+Shift+Delete)
-2. Try an incognito/private window
-3. Wait 5-10 minutes for GitHub Pages CDN cache to clear
-4. Verify the GitHub Actions workflow completed successfully
+- Left column: Slide in from left with fade
+- Right column: Slide in from right with fade (slight delay)
+- Staggered animation for a polished feel
 
