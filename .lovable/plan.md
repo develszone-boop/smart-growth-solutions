@@ -1,134 +1,127 @@
 
+# Fix Google Sheets Form Submission and Add Inline Messages
 
-# Fix Contact Form & Add "Our Clients" Section
+## Problem Analysis
 
-## Overview
+After testing the form submission, I identified the following issues:
 
-This plan addresses three main tasks:
-1. Fix the Google Sheets form submission field name mismatch
-2. Add an "Our Clients" section below the hero carousel on the homepage
-3. Ensure both contact forms are working correctly
+### Issue 1: Apps Script Deployment Problem
+The network logs show requests going to `script.googleusercontent.com` with an error (`net::ERR_ABORTED`). This typically happens when:
+- The Apps Script deployment is using a **library URL** instead of the **web app URL**
+- The deployment permissions aren't set to "Anyone" (anonymous access)
 
----
+**Action Required from You:**
+1. Go to your Apps Script project
+2. Click **Deploy** -> **New deployment**
+3. Select type: **Web app**
+4. Set "Execute as": **Me**
+5. Set "Who has access": **Anyone** (not "Anyone with Google account")
+6. Click **Deploy** and copy the new URL
+7. Share the new deployment URL with me
 
-## Part 1: Fix Google Sheets Form Submission
+### Issue 2: Using Library URL Instead of Web App URL
+You provided a **Library URL** in your message:
+```
+https://script.google.com/macros/library/d/1Km8TZw.../1
+```
+This is NOT the correct URL for form submissions. The correct URL format is:
+```
+https://script.google.com/macros/s/AKfycby.../exec
+```
+The current code uses the correct `/exec` URL, but if the deployment wasn't done correctly, it won't work.
 
-### Problem Identified
-
-Your Google Apps Script expects `data.otherRequirement` but the website sends `otherService`:
-
-| Apps Script Field | Website Field | Status |
-|-------------------|---------------|--------|
-| data.otherRequirement | otherService | MISMATCH |
-
-### Solution
-
-Update both form components to send `otherRequirement` instead of `otherService`.
-
-### Files to Modify
-
-**1. `src/pages/ContactPage.tsx`**
-- Line 68: Change `otherService` to `otherRequirement`
-- Lines 265-268: Change input `id` and `name` from `otherService` to `otherRequirement`
-
-**2. `src/components/Contact.tsx`**
-- Line 54: Change `otherService` to `otherRequirement`
-- Lines 239-242: Change input `id` and `name` from `otherService` to `otherRequirement`
+### Issue 3: Inline Message Display
+Currently, success/error messages appear as toast notifications in the bottom-right corner. You want them displayed directly on the form.
 
 ---
 
-## Part 2: Add "Our Clients" Section
+## Technical Solution
 
-### Design
+### Changes to Make
 
-A clean section showcasing 6 client logos in a responsive grid, placed directly below the HeroCarousel on the homepage.
+**Files to modify:**
+1. `src/pages/ContactPage.tsx`
+2. `src/components/Contact.tsx`
 
-```text
-+------------------------------------------------------------------+
-|                           OUR CLIENTS                             |
-|                Trusted by leading businesses                      |
-+------------------------------------------------------------------+
-|                                                                   |
-|  [DCS Tech]   [AGR Foundation]   [Vedha Mantra]                  |
-|                                                                   |
-|  [SAM LootBig]   [LootBig Corp]   [Anika Farm]                   |
-|                                                                   |
-+------------------------------------------------------------------+
+### For Both Files:
+
+1. **Add state for inline message display**
+```typescript
+const [formMessage, setFormMessage] = useState<{
+  type: 'success' | 'error';
+  text: string;
+} | null>(null);
 ```
 
-### Client Data
-
-| # | Client | Logo | Link |
-|---|--------|------|------|
-| 1 | DCS Tech Hub | DCS_logo_svg.svg (uploaded) | https://www.dcstechhub.com/ |
-| 2 | AGR Foundation | agr_logo.svg (uploaded) | https://www.agrfoundation.ngo/ |
-| 3 | Vedha Mantra | Vedha_Mantra_Logo.svg (uploaded) | https://vedhamantra.com/ |
-| 4 | SAM LootBig | Text logo (styled) | https://sam.lootbig.com/ |
-| 5 | LootBig Corporate | Text logo (styled) | https://corporate.lootbig.com/ |
-| 6 | Anika Farm | anika-farm.webp (uploaded) | https://anika.farm/ |
-
-### Files to Create/Modify
-
-**1. Copy uploaded logos to project assets:**
-- `user-uploads://DCS_logo_svg.svg` → `src/assets/clients/dcs-tech.svg`
-- `user-uploads://agr_logo.svg` → `src/assets/clients/agr-foundation.svg`
-- `user-uploads://Vedha_Mantra_Logo.svg` → `src/assets/clients/vedha-mantra.svg`
-- `user-uploads://anika-farm.webp` → `src/assets/clients/anika-farm.webp`
-
-**2. Create new component:** `src/components/Clients.tsx`
-- Display 6 client logos in a responsive grid (3 columns on desktop, 2 on tablet, 1 on mobile)
-- Each logo is clickable and opens the client's website in a new tab
-- SAM LootBig and LootBig Corporate will use styled text logos since no image was provided
-- Subtle hover effect on logos
-- Framer Motion animations
-
-**3. Modify:** `src/pages/Index.tsx`
-- Import and add the new `<Clients />` component after `<HeroCarousel />`
-
----
-
-## Part 3: Ensure Forms Work Correctly
-
-After the field name fix, the form data will match your Apps Script exactly:
-
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "phone": "+91 9876543210",
-  "company": "ABC Corp",
-  "service": "website",
-  "budget": "10k-25k",
-  "otherRequirement": "",    // Now matches Apps Script!
-  "message": "I need a website",
-  "timestamp": "2026-02-01T..."
+2. **Update handleSubmit to set inline message instead of toast**
+```typescript
+try {
+  await fetch(...);
+  setFormMessage({
+    type: 'success',
+    text: 'Message sent successfully! We\'ll get back to you within 24 hours.'
+  });
+  // Clear form
+  (e.target as HTMLFormElement).reset();
+  setSelectedService("");
+} catch (error) {
+  setFormMessage({
+    type: 'error',
+    text: 'Failed to send message. Please try again or contact us directly.'
+  });
 }
 ```
 
-Your Apps Script will correctly parse all fields.
+3. **Add inline message display in the form JSX**
+```jsx
+{formMessage && (
+  <div className={`p-4 rounded-lg ${
+    formMessage.type === 'success' 
+      ? 'bg-green-500/10 border border-green-500/50 text-green-400' 
+      : 'bg-red-500/10 border border-red-500/50 text-red-400'
+  }`}>
+    <div className="flex items-center gap-2">
+      {formMessage.type === 'success' ? <CheckCircle /> : <AlertCircle />}
+      <span>{formMessage.text}</span>
+    </div>
+  </div>
+)}
+```
+
+4. **Clear message when user starts typing again**
+```typescript
+// Add onClick to form inputs
+onClick={() => setFormMessage(null)}
+```
 
 ---
 
-## Summary of All Changes
+## Before I Can Implement
 
-| File | Action | Purpose |
-|------|--------|---------|
-| `src/assets/clients/` | Create folder | Store client logos |
-| `src/assets/clients/dcs-tech.svg` | Copy from upload | DCS Tech Hub logo |
-| `src/assets/clients/agr-foundation.svg` | Copy from upload | AGR Foundation logo |
-| `src/assets/clients/vedha-mantra.svg` | Copy from upload | Vedha Mantra logo |
-| `src/assets/clients/anika-farm.webp` | Copy from upload | Anika Farm logo |
-| `src/components/Clients.tsx` | Create | New Our Clients section |
-| `src/pages/Index.tsx` | Modify | Add Clients component after Hero |
-| `src/pages/ContactPage.tsx` | Modify | Fix otherRequirement field name |
-| `src/components/Contact.tsx` | Modify | Fix otherRequirement field name |
+I need you to verify your Apps Script deployment:
+
+1. Open your Google Sheet
+2. Go to **Extensions** -> **Apps Script**
+3. Click the blue **Deploy** button (top right)
+4. Click **Manage deployments**
+5. Confirm you see a deployment with:
+   - Type: **Web app**
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+6. If not, create a **New deployment** with these settings
+
+Once you confirm the deployment is correct (or share the new URL if you redeploy), I will:
+1. Update both form components to show inline success/error messages
+2. Ensure the URL is correct in both files
+3. Test the submission again
 
 ---
 
-## Expected Results
+## Summary of Changes
 
-After implementation:
-1. Both "Contact Us" and "Get in Touch" forms will save data correctly to Google Sheets
-2. Homepage will display "Our Clients" section with 6 clickable logos
-3. Clicking any logo opens the client's website in a new tab
+| File | Change |
+|------|--------|
+| `src/pages/ContactPage.tsx` | Add inline message state and display, remove toast |
+| `src/components/Contact.tsx` | Add inline message state and display, remove toast |
 
+Both forms will show a green success box or red error box directly below the "Send Message" button after submission.
