@@ -1,4 +1,5 @@
 import HeroCarousel from "@/components/HeroCarousel";
+import Clients from "@/components/Clients";
 import About from "@/components/About";
 import Services from "@/components/Services";
 import Philosophy from "@/components/Philosophy";
@@ -14,6 +15,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <HeroCarousel />
+      <Clients />
       <About />
       <Philosophy />
       <Services />
