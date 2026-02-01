@@ -1,89 +1,134 @@
 
-# Fix Header Moving and Flashing on Navigation
 
-## Problem Identified
+# Fix Contact Form & Add "Our Clients" Section
 
-When clicking on any header menu item (Home, About, Services, Process, Capabilities, FAQ, Contact Us), the logo, or the mobile menu, the header "moves and flashes." 
+## Overview
 
-### Root Cause
+This plan addresses three main tasks:
+1. Fix the Google Sheets form submission field name mismatch
+2. Add an "Our Clients" section below the hero carousel on the homepage
+3. Ensure both contact forms are working correctly
 
-The Navbar component is included **inside each individual page component**. When you navigate between pages:
+---
 
-1. React Router unmounts the current page (including its Navbar)
-2. React Router mounts the new page (with a new Navbar instance)  
-3. The new Navbar plays its entrance animation: `initial={{ y: -100 }}` → slides down from above
-4. This creates the visible "moving/flashing" effect every time you navigate
+## Part 1: Fix Google Sheets Form Submission
 
-### Current Architecture (Problematic)
+### Problem Identified
+
+Your Google Apps Script expects `data.otherRequirement` but the website sends `otherService`:
+
+| Apps Script Field | Website Field | Status |
+|-------------------|---------------|--------|
+| data.otherRequirement | otherService | MISMATCH |
+
+### Solution
+
+Update both form components to send `otherRequirement` instead of `otherService`.
+
+### Files to Modify
+
+**1. `src/pages/ContactPage.tsx`**
+- Line 68: Change `otherService` to `otherRequirement`
+- Lines 265-268: Change input `id` and `name` from `otherService` to `otherRequirement`
+
+**2. `src/components/Contact.tsx`**
+- Line 54: Change `otherService` to `otherRequirement`
+- Lines 239-242: Change input `id` and `name` from `otherService` to `otherRequirement`
+
+---
+
+## Part 2: Add "Our Clients" Section
+
+### Design
+
+A clean section showcasing 6 client logos in a responsive grid, placed directly below the HeroCarousel on the homepage.
 
 ```text
-App.tsx
-└── BrowserRouter
-    └── Routes
-        ├── Index.tsx         ← Contains <Navbar />
-        ├── AboutPage.tsx     ← Contains <Navbar />
-        ├── ServicesPage.tsx  ← Contains <Navbar />
-        └── ... etc           ← Each page has its own Navbar
++------------------------------------------------------------------+
+|                           OUR CLIENTS                             |
+|                Trusted by leading businesses                      |
++------------------------------------------------------------------+
+|                                                                   |
+|  [DCS Tech]   [AGR Foundation]   [Vedha Mantra]                  |
+|                                                                   |
+|  [SAM LootBig]   [LootBig Corp]   [Anika Farm]                   |
+|                                                                   |
++------------------------------------------------------------------+
 ```
 
-Every route change = Navbar unmounts and remounts = animation replays
+### Client Data
+
+| # | Client | Logo | Link |
+|---|--------|------|------|
+| 1 | DCS Tech Hub | DCS_logo_svg.svg (uploaded) | https://www.dcstechhub.com/ |
+| 2 | AGR Foundation | agr_logo.svg (uploaded) | https://www.agrfoundation.ngo/ |
+| 3 | Vedha Mantra | Vedha_Mantra_Logo.svg (uploaded) | https://vedhamantra.com/ |
+| 4 | SAM LootBig | Text logo (styled) | https://sam.lootbig.com/ |
+| 5 | LootBig Corporate | Text logo (styled) | https://corporate.lootbig.com/ |
+| 6 | Anika Farm | anika-farm.webp (uploaded) | https://anika.farm/ |
+
+### Files to Create/Modify
+
+**1. Copy uploaded logos to project assets:**
+- `user-uploads://DCS_logo_svg.svg` → `src/assets/clients/dcs-tech.svg`
+- `user-uploads://agr_logo.svg` → `src/assets/clients/agr-foundation.svg`
+- `user-uploads://Vedha_Mantra_Logo.svg` → `src/assets/clients/vedha-mantra.svg`
+- `user-uploads://anika-farm.webp` → `src/assets/clients/anika-farm.webp`
+
+**2. Create new component:** `src/components/Clients.tsx`
+- Display 6 client logos in a responsive grid (3 columns on desktop, 2 on tablet, 1 on mobile)
+- Each logo is clickable and opens the client's website in a new tab
+- SAM LootBig and LootBig Corporate will use styled text logos since no image was provided
+- Subtle hover effect on logos
+- Framer Motion animations
+
+**3. Modify:** `src/pages/Index.tsx`
+- Import and add the new `<Clients />` component after `<HeroCarousel />`
 
 ---
 
-## Solution
+## Part 3: Ensure Forms Work Correctly
 
-Move the Navbar to the App level so it persists across all route changes and only animates once on initial page load.
+After the field name fix, the form data will match your Apps Script exactly:
 
-### New Architecture (Fixed)
-
-```text
-App.tsx
-└── BrowserRouter
-    ├── Navbar              ← Single instance, persists across routes
-    └── Routes
-        ├── Index.tsx       ← No Navbar (removed)
-        ├── AboutPage.tsx   ← No Navbar (removed)
-        └── ... etc         ← No Navbar needed
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "+91 9876543210",
+  "company": "ABC Corp",
+  "service": "website",
+  "budget": "10k-25k",
+  "otherRequirement": "",    // Now matches Apps Script!
+  "message": "I need a website",
+  "timestamp": "2026-02-01T..."
+}
 ```
 
----
-
-## Technical Changes
-
-### 1. Modify `src/App.tsx`
-Add Navbar once at the root level, outside the Routes component.
-
-### 2. Remove Navbar from All Page Components
-Remove the `<Navbar />` import and usage from:
-- `src/pages/Index.tsx`
-- `src/pages/AboutPage.tsx`
-- `src/pages/ServicesPage.tsx`
-- `src/pages/ProcessPage.tsx`
-- `src/pages/PortfolioPage.tsx`
-- `src/pages/FAQPage.tsx`
-- `src/pages/ContactPage.tsx`
+Your Apps Script will correctly parse all fields.
 
 ---
 
-## Files to Modify
+## Summary of All Changes
 
-| File | Change |
-|------|--------|
-| `src/App.tsx` | Add `<Navbar />` before `<Routes>` |
-| `src/pages/Index.tsx` | Remove Navbar import and usage |
-| `src/pages/AboutPage.tsx` | Remove Navbar import and usage |
-| `src/pages/ServicesPage.tsx` | Remove Navbar import and usage |
-| `src/pages/ProcessPage.tsx` | Remove Navbar import and usage |
-| `src/pages/PortfolioPage.tsx` | Remove Navbar import and usage |
-| `src/pages/FAQPage.tsx` | Remove Navbar import and usage |
-| `src/pages/ContactPage.tsx` | Remove Navbar import and usage |
+| File | Action | Purpose |
+|------|--------|---------|
+| `src/assets/clients/` | Create folder | Store client logos |
+| `src/assets/clients/dcs-tech.svg` | Copy from upload | DCS Tech Hub logo |
+| `src/assets/clients/agr-foundation.svg` | Copy from upload | AGR Foundation logo |
+| `src/assets/clients/vedha-mantra.svg` | Copy from upload | Vedha Mantra logo |
+| `src/assets/clients/anika-farm.webp` | Copy from upload | Anika Farm logo |
+| `src/components/Clients.tsx` | Create | New Our Clients section |
+| `src/pages/Index.tsx` | Modify | Add Clients component after Hero |
+| `src/pages/ContactPage.tsx` | Modify | Fix otherRequirement field name |
+| `src/components/Contact.tsx` | Modify | Fix otherRequirement field name |
 
 ---
 
-## Expected Result
+## Expected Results
 
-After this fix:
-- Navbar will render once and stay persistent across all pages
-- The slide-down animation (`y: -100 → y: 0`) will only play on initial site load
-- Navigation between pages will be smooth with no header movement or flashing
-- The header will remain stable and fixed at the top during all route changes
+After implementation:
+1. Both "Contact Us" and "Get in Touch" forms will save data correctly to Google Sheets
+2. Homepage will display "Our Clients" section with 6 clickable logos
+3. Clicking any logo opens the client's website in a new tab
+
