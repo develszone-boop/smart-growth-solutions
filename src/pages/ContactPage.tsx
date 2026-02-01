@@ -1,11 +1,12 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Phone, MapPin, Send, Clock, MessageCircle, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Clock, MessageCircle, CheckCircle } from "lucide-react";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 
 const contactInfo = [
   {
@@ -49,12 +50,9 @@ const faqs = [
 const ContactPage = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedService, setSelectedService] = useState("");
-  const [formMessage, setFormMessage] = useState<{
-    type: 'success' | 'error';
-    text: string;
-  } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -86,18 +84,19 @@ const ContactPage = () => {
         }
       );
       
-      setFormMessage({
-        type: 'success',
-        text: 'Message sent successfully! We\'ll get back to you within 24 hours.'
+      toast({
+        title: "Message Sent!",
+        description: "We'll get back to you within 24 hours.",
       });
       
       setSelectedService("");
       (e.target as HTMLFormElement).reset();
     } catch (error) {
       console.error("Form submission error:", error);
-      setFormMessage({
-        type: 'error',
-        text: 'Failed to send message. Please try again or contact us directly.'
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
@@ -305,19 +304,6 @@ const ContactPage = () => {
                     {isSubmitting ? "Sending..." : "Send Message"}
                     <Send className="w-4 h-4" />
                   </Button>
-
-                  {formMessage && (
-                    <div className={`p-4 rounded-lg ${
-                      formMessage.type === 'success' 
-                        ? 'bg-green-500/10 border border-green-500/50 text-green-400' 
-                        : 'bg-red-500/10 border border-red-500/50 text-red-400'
-                    }`}>
-                      <div className="flex items-center gap-2">
-                        {formMessage.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
-                        <span>{formMessage.text}</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </form>
             </motion.div>
