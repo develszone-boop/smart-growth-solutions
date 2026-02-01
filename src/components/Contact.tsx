@@ -51,7 +51,7 @@ const Contact = () => {
       phone: formData.get("phone"),
       company: formData.get("company"),
       service: formData.get("service"),
-      otherService: formData.get("otherService") || "",
+      otherRequirement: formData.get("otherRequirement") || "",
       message: formData.get("message"),
       timestamp: new Date().toISOString(),
     };
@@ -236,10 +236,10 @@ const Contact = () => {
 
                 {selectedService === "other" && (
                   <div>
-                    <label htmlFor="otherService" className="block text-sm font-medium mb-2">Please specify your requirements</label>
+                    <label htmlFor="otherRequirement" className="block text-sm font-medium mb-2">Please specify your requirements</label>
                     <Input
-                      id="otherService"
-                      name="otherService"
+                      id="otherRequirement"
+                      name="otherRequirement"
                       placeholder="Describe what you need..."
                       required
                       className="bg-secondary/50"
