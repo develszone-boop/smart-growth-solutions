@@ -6,6 +6,7 @@ import dcsLogo from "@/assets/clients/dcs-tech.svg";
 import agrLogo from "@/assets/clients/agr-foundation.svg";
 import vedhaMantraLogo from "@/assets/clients/vedha-mantra.svg";
 import anikaFarmLogo from "@/assets/clients/anika-farm.webp";
+import sinineLogo from "@/assets/clients/sinine.png";
 
 interface Client {
   name: string;
@@ -44,6 +45,11 @@ const clients: Client[] = [
     name: "Anika Farm",
     logo: anikaFarmLogo,
     url: "https://anika.farm/",
+  },
+  {
+    name: "Sinine",
+    logo: sinineLogo,
+    url: "https://sinine.in/",
   },
 ];
 
