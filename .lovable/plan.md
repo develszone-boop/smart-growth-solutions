@@ -1,155 +1,127 @@
 
+# Fix Google Sheets Form Submission and Add Inline Messages
 
-# Complete Guide: Google Sheets Setup + Add Sinine Client
+## Problem Analysis
 
-## Part 1: Create New Google Sheet for Form Submissions
+After testing the form submission, I identified the following issues:
 
-### Step 1: Create the Google Sheet
-1. Go to [sheets.google.com](https://sheets.google.com)
-2. Click **+ Blank** to create a new spreadsheet
-3. Name it: `Trikalnetra Contact Forms`
-4. Rename the first sheet tab (bottom) to: `Get in Touch`
-5. Add these headers in Row 1:
+### Issue 1: Apps Script Deployment Problem
+The network logs show requests going to `script.googleusercontent.com` with an error (`net::ERR_ABORTED`). This typically happens when:
+- The Apps Script deployment is using a **library URL** instead of the **web app URL**
+- The deployment permissions aren't set to "Anyone" (anonymous access)
 
-| A | B | C | D | E | F | G | H | I | J |
-|---|---|---|---|---|---|---|---|---|---|
-| Timestamp | Name | Email | Phone | Company | Service | Budget | Other Requirement | Message | Source |
+**Action Required from You:**
+1. Go to your Apps Script project
+2. Click **Deploy** -> **New deployment**
+3. Select type: **Web app**
+4. Set "Execute as": **Me**
+5. Set "Who has access": **Anyone** (not "Anyone with Google account")
+6. Click **Deploy** and copy the new URL
+7. Share the new deployment URL with me
 
-### Step 2: Create the Apps Script
-1. In the sheet, go to **Extensions** → **Apps Script**
-2. Delete any existing code
-3. Paste this exact code:
+### Issue 2: Using Library URL Instead of Web App URL
+You provided a **Library URL** in your message:
+```
+https://script.google.com/macros/library/d/1Km8TZw.../1
+```
+This is NOT the correct URL for form submissions. The correct URL format is:
+```
+https://script.google.com/macros/s/AKfycby.../exec
+```
+The current code uses the correct `/exec` URL, but if the deployment wasn't done correctly, it won't work.
 
-```javascript
-function doPost(e) {
-  try {
-    // IMPORTANT: Replace this with your actual Sheet ID
-    const SHEET_ID = "PASTE_YOUR_SHEET_ID_HERE";
-    
-    const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sheet = ss.getSheetByName("Get in Touch");
-    
-    if (!sheet) {
-      throw new Error("Sheet 'Get in Touch' not found");
-    }
-    
-    const data = JSON.parse(e.postData.contents);
-    
-    sheet.appendRow([
-      new Date(),
-      data.name || "",
-      data.email || "",
-      data.phone || "",
-      data.company || "",
-      data.service || "",
-      data.budget || "",
-      data.otherRequirement || "",
-      data.message || "",
-      "Website - Contact Form"
-    ]);
-    
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        status: "success",
-        message: "Form submitted successfully"
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
-      
-  } catch (error) {
-    return ContentService
-      .createTextOutput(JSON.stringify({
-        status: "error",
-        message: error.toString()
-      }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
+### Issue 3: Inline Message Display
+Currently, success/error messages appear as toast notifications in the bottom-right corner. You want them displayed directly on the form.
+
+---
+
+## Technical Solution
+
+### Changes to Make
+
+**Files to modify:**
+1. `src/pages/ContactPage.tsx`
+2. `src/components/Contact.tsx`
+
+### For Both Files:
+
+1. **Add state for inline message display**
+```typescript
+const [formMessage, setFormMessage] = useState<{
+  type: 'success' | 'error';
+  text: string;
+} | null>(null);
+```
+
+2. **Update handleSubmit to set inline message instead of toast**
+```typescript
+try {
+  await fetch(...);
+  setFormMessage({
+    type: 'success',
+    text: 'Message sent successfully! We\'ll get back to you within 24 hours.'
+  });
+  // Clear form
+  (e.target as HTMLFormElement).reset();
+  setSelectedService("");
+} catch (error) {
+  setFormMessage({
+    type: 'error',
+    text: 'Failed to send message. Please try again or contact us directly.'
+  });
 }
-
-function doGet(e) {
-  return ContentService
-    .createTextOutput("Form endpoint is working!")
-    .setMimeType(ContentService.MimeType.TEXT);
-}
 ```
 
-### Step 3: Find Your Sheet ID
-Your Google Sheet URL looks like this:
+3. **Add inline message display in the form JSX**
+```jsx
+{formMessage && (
+  <div className={`p-4 rounded-lg ${
+    formMessage.type === 'success' 
+      ? 'bg-green-500/10 border border-green-500/50 text-green-400' 
+      : 'bg-red-500/10 border border-red-500/50 text-red-400'
+  }`}>
+    <div className="flex items-center gap-2">
+      {formMessage.type === 'success' ? <CheckCircle /> : <AlertCircle />}
+      <span>{formMessage.text}</span>
+    </div>
+  </div>
+)}
 ```
-https://docs.google.com/spreadsheets/d/1ABC123XYZ789.../edit
-                                       ^^^^^^^^^^^^^^^^
-                                       This is your Sheet ID
-```
-Copy the ID and replace `PASTE_YOUR_SHEET_ID_HERE` in the code above.
 
-### Step 4: Deploy as Web App
-1. Click **Deploy** → **New deployment**
-2. Click the gear icon ⚙️ next to "Select type" → choose **Web app**
-3. Fill in:
-   - Description: `Contact Form Handler`
+4. **Clear message when user starts typing again**
+```typescript
+// Add onClick to form inputs
+onClick={() => setFormMessage(null)}
+```
+
+---
+
+## Before I Can Implement
+
+I need you to verify your Apps Script deployment:
+
+1. Open your Google Sheet
+2. Go to **Extensions** -> **Apps Script**
+3. Click the blue **Deploy** button (top right)
+4. Click **Manage deployments**
+5. Confirm you see a deployment with:
+   - Type: **Web app**
    - Execute as: **Me**
    - Who has access: **Anyone**
-4. Click **Deploy**
-5. Click **Authorize access** → Select your Google account → Allow
-6. **Copy the Web app URL** (ends with `/exec`)
+6. If not, create a **New deployment** with these settings
 
-### Step 5: Share the New URL with Me
-Once you have the new Web app URL (format: `https://script.google.com/macros/s/AKfycby.../exec`), share it with me and I will update both form components to use it.
-
----
-
-## Part 2: Add Sinine to Our Clients
-
-### Files to Modify
-
-**1. Copy uploaded logo:**
-- `user-uploads://Logo-Sinine1.png` → `src/assets/clients/sinine.png`
-
-**2. Update `src/components/Clients.tsx`:**
-- Add import for Sinine logo
-- Add Sinine to the clients array
-
-### Changes to Clients.tsx
-
-```typescript
-// Add import at line 8
-import sinineLogo from "@/assets/clients/sinine.png";
-
-// Add to clients array (after Anika Farm)
-{
-  name: "Sinine",
-  logo: sinineLogo,
-  url: "https://sinine.in/",
-},
-```
-
-The grid will now show 7 clients (responsive: 3-4 per row on tablet, 7 on desktop).
+Once you confirm the deployment is correct (or share the new URL if you redeploy), I will:
+1. Update both form components to show inline success/error messages
+2. Ensure the URL is correct in both files
+3. Test the submission again
 
 ---
 
-## Summary
+## Summary of Changes
 
-| Task | Action |
+| File | Change |
 |------|--------|
-| Google Sheets | You create new sheet + Apps Script + deploy (steps 1-5 above) |
-| Share URL | You share the new `/exec` URL with me |
-| Update forms | I update both `ContactPage.tsx` and `Contact.tsx` with new URL |
-| Add Sinine | I copy logo and update `Clients.tsx` |
-| Test | We verify form submissions save to sheet |
+| `src/pages/ContactPage.tsx` | Add inline message state and display, remove toast |
+| `src/components/Contact.tsx` | Add inline message state and display, remove toast |
 
----
-
-## Next Steps
-
-1. **You do Steps 1-5** above (create sheet, add script, deploy)
-2. **Share the new Web app URL** with me
-3. I will then implement:
-   - Update form URLs in both components
-   - Add Sinine to the Clients section
-
-
-
-
-Here is the web app URL: https://script.google.com/macros/s/AKfycbyF53_8QI84yryvVphde2BooV-9vT1IAWTlU20TODAj_3hflXOsiv4YMG2b6jF28tbkbg/exec
-
-
-And please don't disturb GitHub things; everything is correct and working fine to open "https://trikalnetra.com/", so please don't disturb GitHub things, I guess. 
+Both forms will show a green success box or red error box directly below the "Send Message" button after submission.
