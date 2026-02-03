@@ -1,24 +1,27 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Star, Quote, User } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Ravi",
-    role: "CEO, AGR Foundation",
-    content: "trikalnetra delivered exceptional results for our foundation. Their strategic approach to digital presence helped us connect with more donors and volunteers. The team truly understood our mission and vision.",
+    name: "Sarah Johnson",
+    role: "CEO, TechStart Inc.",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+    content: "trikalnetra transformed our online presence completely. Our conversion rates increased by 240% within the first quarter. Their strategic approach to analytics and design is unmatched.",
     rating: 5,
   },
   {
-    name: "Jangaiah",
-    role: "CEO, Anika Farm",
-    content: "Working with trikalnetra transformed our agricultural business. Their website design and digital marketing strategies helped us reach customers directly, increasing our online sales significantly.",
+    name: "Michael Chen",
+    role: "Founder, PropTech Solutions",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+    content: "The team's expertise in cybersecurity and SEO helped us establish trust with our enterprise clients. Our lead quality improved by 85% after the website rebranding.",
     rating: 5,
   },
   {
-    name: "Vinodh Tech",
-    role: "LootBig-Tech",
-    content: "The team at trikalnetra exceeded our expectations. Their technical expertise and creative solutions helped us establish a strong digital presence in the competitive tech market.",
+    name: "Emily Rodriguez",
+    role: "Marketing Director, Wellness Hub",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+    content: "Working with trikalnetra was a game-changer. Their data-driven marketing strategies and beautiful design work resulted in a 180% increase in bookings.",
     rating: 5,
   },
 ];
@@ -77,9 +80,11 @@ const Testimonials = () => {
 
               {/* Author */}
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-                  <User className="w-6 h-6 text-primary" />
-                </div>
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
                 <div>
                   <p className="font-semibold">{testimonial.name}</p>
                   <p className="text-sm text-muted-foreground">{testimonial.role}</p>

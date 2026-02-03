@@ -1,106 +1,155 @@
 
 
-# Update Testimonials & Social Media Links
+# Complete Guide: Google Sheets Setup + Add Sinine Client
 
-## Overview
+## Part 1: Create New Google Sheet for Form Submissions
 
-This plan covers two updates:
-1. **Testimonials Section**: Replace fake testimonials with real client experiences and use placeholder avatars
-2. **Footer Social Links**: Add real social media URLs and remove Twitter
+### Step 1: Create the Google Sheet
+1. Go to [sheets.google.com](https://sheets.google.com)
+2. Click **+ Blank** to create a new spreadsheet
+3. Name it: `Trikalnetra Contact Forms`
+4. Rename the first sheet tab (bottom) to: `Get in Touch`
+5. Add these headers in Row 1:
+
+| A | B | C | D | E | F | G | H | I | J |
+|---|---|---|---|---|---|---|---|---|---|
+| Timestamp | Name | Email | Phone | Company | Service | Budget | Other Requirement | Message | Source |
+
+### Step 2: Create the Apps Script
+1. In the sheet, go to **Extensions** → **Apps Script**
+2. Delete any existing code
+3. Paste this exact code:
+
+```javascript
+function doPost(e) {
+  try {
+    // IMPORTANT: Replace this with your actual Sheet ID
+    const SHEET_ID = "PASTE_YOUR_SHEET_ID_HERE";
+    
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const sheet = ss.getSheetByName("Get in Touch");
+    
+    if (!sheet) {
+      throw new Error("Sheet 'Get in Touch' not found");
+    }
+    
+    const data = JSON.parse(e.postData.contents);
+    
+    sheet.appendRow([
+      new Date(),
+      data.name || "",
+      data.email || "",
+      data.phone || "",
+      data.company || "",
+      data.service || "",
+      data.budget || "",
+      data.otherRequirement || "",
+      data.message || "",
+      "Website - Contact Form"
+    ]);
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: "success",
+        message: "Form submitted successfully"
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: "error",
+        message: error.toString()
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return ContentService
+    .createTextOutput("Form endpoint is working!")
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+```
+
+### Step 3: Find Your Sheet ID
+Your Google Sheet URL looks like this:
+```
+https://docs.google.com/spreadsheets/d/1ABC123XYZ789.../edit
+                                       ^^^^^^^^^^^^^^^^
+                                       This is your Sheet ID
+```
+Copy the ID and replace `PASTE_YOUR_SHEET_ID_HERE` in the code above.
+
+### Step 4: Deploy as Web App
+1. Click **Deploy** → **New deployment**
+2. Click the gear icon ⚙️ next to "Select type" → choose **Web app**
+3. Fill in:
+   - Description: `Contact Form Handler`
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+4. Click **Deploy**
+5. Click **Authorize access** → Select your Google account → Allow
+6. **Copy the Web app URL** (ends with `/exec`)
+
+### Step 5: Share the New URL with Me
+Once you have the new Web app URL (format: `https://script.google.com/macros/s/AKfycby.../exec`), share it with me and I will update both form components to use it.
 
 ---
 
-## Part 1: Update Testimonials
+## Part 2: Add Sinine to Our Clients
 
-### Changes to `src/components/Testimonials.tsx`
+### Files to Modify
 
-**Replace the testimonials array with real clients:**
+**1. Copy uploaded logo:**
+- `user-uploads://Logo-Sinine1.png` → `src/assets/clients/sinine.png`
 
-| Client | Person | Role |
-|--------|--------|------|
-| AGR Foundation | Ravi | CEO |
-| Anika Farm | Jangaiah | CEO |
-| LootBig-Tech | Vinodh | CEO |
+**2. Update `src/components/Clients.tsx`:**
+- Add import for Sinine logo
+- Add Sinine to the clients array
 
-**Replace profile photos with placeholder avatars:**
-- Remove external Unsplash image URLs
-- Use a `User` icon from lucide-react inside a styled circle as placeholder
+### Changes to Clients.tsx
 
-**New testimonials data structure:**
 ```typescript
-const testimonials = [
-  {
-    name: "Ravi",
-    role: "CEO, AGR Foundation",
-    content: "[Real testimonial content from Ravi]",
-    rating: 5,
-  },
-  {
-    name: "Jangaiah",
-    role: "CEO, Anika Farm",
-    content: "[Real testimonial content from Jangaiah]",
-    rating: 5,
-  },
-  {
-    name: "Vinodh",
-    role: "CEO, LootBig-Tech",
-    content: "[Real testimonial content from Vinodh]",
-    rating: 5,
-  },
-];
+// Add import at line 8
+import sinineLogo from "@/assets/clients/sinine.png";
+
+// Add to clients array (after Anika Farm)
+{
+  name: "Sinine",
+  logo: sinineLogo,
+  url: "https://sinine.in/",
+},
 ```
 
-**Avatar placeholder design:**
-```jsx
-<div className="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-  <User className="w-6 h-6 text-primary" />
-</div>
-```
+The grid will now show 7 clients (responsive: 3-4 per row on tablet, 7 on desktop).
 
 ---
 
-## Part 2: Update Footer Social Links
+## Summary
 
-### Changes to `src/components/Footer.tsx`
-
-**Update social links array:**
-
-| Platform | Action | URL |
-|----------|--------|-----|
-| Facebook | Update URL | https://www.facebook.com/profile.php?id=61587345544535 |
-| Twitter | **Remove** | - |
-| Instagram | Update URL | https://www.instagram.com/official_trikalnetra?utm_source=qr&igsh=MW9oZGFzcDc3dzE3eg== |
-| LinkedIn | Update URL | https://www.linkedin.com/in/trikalnetra-techgiant-b150823aa/ |
-
-**Updated code:**
-```typescript
-const socialLinks = [
-  { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/profile.php?id=61587345544535" },
-  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/official_trikalnetra?utm_source=qr&igsh=MW9oZGFzcDc3dzE3eg==" },
-  { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/in/trikalnetra-techgiant-b150823aa/" },
-];
-```
-
-Also remove the `Twitter` import from lucide-react since it's no longer used.
+| Task | Action |
+|------|--------|
+| Google Sheets | You create new sheet + Apps Script + deploy (steps 1-5 above) |
+| Share URL | You share the new `/exec` URL with me |
+| Update forms | I update both `ContactPage.tsx` and `Contact.tsx` with new URL |
+| Add Sinine | I copy logo and update `Clients.tsx` |
+| Test | We verify form submissions save to sheet |
 
 ---
 
-## Files to Modify
+## Next Steps
 
-| File | Changes |
-|------|---------|
-| `src/components/Testimonials.tsx` | Replace testimonials data, add User icon import, update avatar rendering |
-| `src/components/Footer.tsx` | Update socialLinks with real URLs, remove Twitter |
+1. **You do Steps 1-5** above (create sheet, add script, deploy)
+2. **Share the new Web app URL** with me
+3. I will then implement:
+   - Update form URLs in both components
+   - Add Sinine to the Clients section
 
----
 
-## Question
 
-Before I implement, I need the **actual testimonial quotes** from your clients. Could you provide the real feedback/experience text from:
 
-1. **Ravi (AGR Foundation)** - What did he say about working with trikalnetra?
-2. **Jangaiah (Anika Farm)** - What was his experience?
-3. **Vinodh (LootBig-Tech)** - What feedback did he provide?
+Here is the web app URL: https://script.google.com/macros/s/AKfycbyF53_8QI84yryvVphde2BooV-9vT1IAWTlU20TODAj_3hflXOsiv4YMG2b6jF28tbkbg/exec
 
-If you don't have exact quotes, I can write professional placeholder testimonials that you can edit later. Let me know which approach you prefer.
 
+And please don't disturb GitHub things; everything is correct and working fine to open "https://trikalnetra.com/", so please don't disturb GitHub things, I guess. 
