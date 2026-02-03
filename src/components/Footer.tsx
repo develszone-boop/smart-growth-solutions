@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.svg";
 
@@ -27,10 +27,9 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { name: "Facebook", icon: Facebook, href: "#" },
-  { name: "Twitter", icon: Twitter, href: "#" },
-  { name: "Instagram", icon: Instagram, href: "#" },
-  { name: "LinkedIn", icon: Linkedin, href: "#" },
+  { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/profile.php?id=61587345544535" },
+  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/official_trikalnetra?utm_source=qr&igsh=MW9oZGFzcDc3dzE3eg==" },
+  { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/in/trikalnetra-techgiant-b150823aa/" },
 ];
 
 const Footer = () => {
