@@ -16,8 +16,8 @@ const testimonials = [
     rating: 5,
   },
   {
-    name: "Vinodh",
-    role: "CEO, LootBig-Tech",
+    name: "Vinodh Tech",
+    role: "LootBig-Tech",
     content: "The team at trikalnetra exceeded our expectations. Their technical expertise and creative solutions helped us establish a strong digital presence in the competitive tech market.",
     rating: 5,
   },
